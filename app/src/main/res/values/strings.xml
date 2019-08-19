@@ -6,4 +6,8 @@
     <string name="movies">Movies</string>
     <string name="tv_movies">Tv Movies</string>
     <string name="tv_shows">Tv Shows</string>
+    <string name="title">Title</string>
+    <string name="minus">-</string>
+    <string name="genre">Genre</string>
+    <string name="ten_percen">10%</string>
 </resources>

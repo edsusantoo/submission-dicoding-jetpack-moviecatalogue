@@ -1,34 +1,55 @@
 package com.edsusantoo.bismillah.moviecatalogue.ui.home
 
 import android.os.Bundle
-import android.widget.TextView
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.edsusantoo.bismillah.moviecatalogue.R
+import com.edsusantoo.bismillah.moviecatalogue.ui.home.movies.MoviesFragment
+import com.edsusantoo.bismillah.moviecatalogue.ui.home.tvshows.TvShowsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var textMessage: TextView
+    private val SELECTED_MENU = "selected_menu"
+
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        var fragment: Fragment? = null
         when (item.itemId) {
             R.id.navigation_movies -> {
-                textMessage.setText(R.string.title_home)
-                return@OnNavigationItemSelectedListener true
+                fragment = MoviesFragment.newInstance()
             }
             R.id.navigation_tv_shows -> {
-                textMessage.setText(R.string.title_dashboard)
-                return@OnNavigationItemSelectedListener true
+                fragment = TvShowsFragment.newInstance()
             }
         }
-        false
+
+        if (fragment != null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit()
+        }
+
+        return@OnNavigationItemSelectedListener true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-        textMessage = findViewById(R.id.message)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+
+        if (savedInstanceState != null) {
+            savedInstanceState.getInt(SELECTED_MENU)
+        } else {
+            nav_view.selectedItemId = R.id.navigation_movies
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        outState?.putInt(SELECTED_MENU, nav_view.selectedItemId)
     }
 }
