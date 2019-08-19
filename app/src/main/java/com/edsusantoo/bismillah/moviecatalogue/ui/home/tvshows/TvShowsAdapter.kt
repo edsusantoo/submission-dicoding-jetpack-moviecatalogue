@@ -1,5 +1,6 @@
 package com.edsusantoo.bismillah.moviecatalogue.ui.home.tvshows
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,7 @@ import com.edsusantoo.bismillah.moviecatalogue.R
 import com.edsusantoo.bismillah.moviecatalogue.data.MoviesModel
 import kotlinx.android.synthetic.main.item_movies.view.*
 
-class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() {
+class TvShowsAdapter(private val context: Context?) : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() {
 
     private lateinit var data: List<MoviesModel>
 
@@ -45,7 +46,7 @@ class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() 
                 if (dataGenres == null) {
                     dataGenres = movie.genres[i]
                 } else {
-                    dataGenres = dataGenres + "," + movie.genres[i]
+                    dataGenres = dataGenres + ", " + movie.genres[i]
                 }
             }
             tvGenre.text = dataGenres
