@@ -38,7 +38,7 @@ class MoviesFragment : Fragment() {
 
     private fun setup() {
 
-        val adapter = MoviesAdapter()
+        val adapter = MoviesAdapter(context)
         adapter.addMovie(moviesViewModel.getMovies())
 
         rv_movies.layoutManager = LinearLayoutManager(context)

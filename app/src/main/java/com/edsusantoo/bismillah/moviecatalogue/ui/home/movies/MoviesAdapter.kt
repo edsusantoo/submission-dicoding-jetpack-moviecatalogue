@@ -1,16 +1,19 @@
 package com.edsusantoo.bismillah.moviecatalogue.ui.home.movies
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.edsusantoo.bismillah.moviecatalogue.R
 import com.edsusantoo.bismillah.moviecatalogue.data.MoviesModel
 import kotlinx.android.synthetic.main.item_movies.view.*
 
-class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
+
+class MoviesAdapter(private val context: Context?) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
     private lateinit var data: List<MoviesModel>
 
@@ -29,7 +32,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(data[position], context)
     }
 
     class MoviesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -37,8 +40,10 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
         private val tvGenre: TextView = view.tv_genre
         private val tvRate: TextView = view.tv_rate
         private val imgPoster: ImageView = view.img_poster
+        private val cvMovie: CardView = view.cv_movie
+        private var backgroundColor: Int = 0
 
-        fun bind(movie: MoviesModel) {
+        fun bind(movie: MoviesModel, context: Context?) {
             tvTitle.text = movie.title
             var dataGenres: String? = null
             for (i in 0 until movie.genres.size) {
