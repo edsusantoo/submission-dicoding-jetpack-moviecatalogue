@@ -1,6 +1,7 @@
 package com.edsusantoo.bismillah.moviecatalogue.ui.home.movies
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.edsusantoo.bismillah.moviecatalogue.R
 import com.edsusantoo.bismillah.moviecatalogue.data.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.ui.detail.DetailActivity
+import com.edsusantoo.bismillah.moviecatalogue.utils.Constans
 import kotlinx.android.synthetic.main.item_movies.view.*
 
 
@@ -33,6 +36,20 @@ class MoviesAdapter(private val context: Context?) : RecyclerView.Adapter<Movies
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         holder.bind(data[position], context)
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra(
+                    Constans.EXTRAS_MOVIE, MoviesModel(
+                    data[position].title,
+                    data[position].description,
+                    data[position].rate,
+                    data[position].genres,
+                    data[position].poster
+            )
+            )
+
+            context?.startActivity(intent)
+        }
     }
 
     class MoviesViewHolder(view: View) : RecyclerView.ViewHolder(view) {

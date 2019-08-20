@@ -25,6 +25,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    // Add for using latest experimental build of Android Extensions
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
