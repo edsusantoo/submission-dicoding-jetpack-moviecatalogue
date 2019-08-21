@@ -1,6 +1,7 @@
 package com.edsusantoo.bismillah.moviecatalogue.ui.home.tvshows
 
 import com.edsusantoo.bismillah.moviecatalogue.data.MoviesModel
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
@@ -17,6 +18,8 @@ class TvShowsViewModelTest {
     fun getTvShows() {
         val tvShows: List<MoviesModel> = viewModel.getTvShows()
         assertNotNull(tvShows)
+        assertEquals("Arrow", tvShows[0].title)
+        assertEquals(11, tvShows.size)
     }
 
 }
