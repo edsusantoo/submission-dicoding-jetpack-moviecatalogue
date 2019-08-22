@@ -7,7 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.edsusantoo.bismillah.moviecatalogue.R
-import com.edsusantoo.bismillah.moviecatalogue.ui.utils.FakeConstans
+import com.edsusantoo.bismillah.moviecatalogue.ui.utils.FakeConstants
 import com.edsusantoo.bismillah.moviecatalogue.ui.utils.FakeDataDummy
 import org.junit.Rule
 import org.junit.Test
@@ -21,7 +21,7 @@ class DetailActivityTest {
             override fun getActivityIntent(): Intent {
                 val targetContext = InstrumentationRegistry.getInstrumentation().targetContext
                 val result = Intent(targetContext, DetailActivity::class.java)
-                result.putExtra(FakeConstans.EXTRAS_MOVIE, dummyDetailMovies)
+                result.putExtra(FakeConstants.EXTRAS_MOVIE, dummyDetailMovies)
                 return result
             }
         }

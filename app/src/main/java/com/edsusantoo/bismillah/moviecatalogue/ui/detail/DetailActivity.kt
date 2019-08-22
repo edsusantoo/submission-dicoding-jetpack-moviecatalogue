@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.edsusantoo.bismillah.moviecatalogue.R
-import com.edsusantoo.bismillah.moviecatalogue.utils.Constans
+import com.edsusantoo.bismillah.moviecatalogue.utils.Constants
 import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity() {
@@ -24,7 +24,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun getDataIntent() {
-        detailViewModel.setMovieDetail(intent.getParcelableExtra(Constans.EXTRAS_MOVIE))
+        detailViewModel.setMovieDetail(intent.getParcelableExtra(Constants.EXTRAS_MOVIE))
     }
 
     private fun setDataIntent() {
@@ -33,10 +33,10 @@ class DetailActivity : AppCompatActivity() {
 
         var dataGenres: String? = null
         for (i in 0 until detailViewModel.getMovieDetail()?.genres!!.size) {
-            if (dataGenres == null) {
-                dataGenres = detailViewModel.getMovieDetail()!!.genres[i]
+            dataGenres = if (dataGenres == null) {
+                detailViewModel.getMovieDetail()!!.genres[i]
             } else {
-                dataGenres = dataGenres + ", " + detailViewModel.getMovieDetail()!!.genres[i]
+                dataGenres + ", " + detailViewModel.getMovieDetail()!!.genres[i]
             }
         }
         tv_genre.text = dataGenres

@@ -7,12 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.edsusantoo.bismillah.moviecatalogue.R
 import com.edsusantoo.bismillah.moviecatalogue.data.MoviesModel
 import com.edsusantoo.bismillah.moviecatalogue.ui.detail.DetailActivity
-import com.edsusantoo.bismillah.moviecatalogue.utils.Constans
+import com.edsusantoo.bismillah.moviecatalogue.utils.Constants
 import kotlinx.android.synthetic.main.item_movies.view.*
 
 
@@ -39,7 +38,7 @@ class MoviesAdapter(private val context: Context?) : RecyclerView.Adapter<Movies
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)
             intent.putExtra(
-                    Constans.EXTRAS_MOVIE, MoviesModel(
+                Constants.EXTRAS_MOVIE, MoviesModel(
                     data[position].title,
                     data[position].description,
                     data[position].rate,
@@ -57,17 +56,15 @@ class MoviesAdapter(private val context: Context?) : RecyclerView.Adapter<Movies
         private val tvGenre: TextView = view.tv_genre
         private val tvRate: TextView = view.tv_rate
         private val imgPoster: ImageView = view.img_poster
-        private val cvMovie: CardView = view.cv_movie
-        private var backgroundColor: Int = 0
 
         fun bind(movie: MoviesModel, context: Context?) {
             tvTitle.text = movie.title
             var dataGenres: String? = null
             for (i in 0 until movie.genres.size) {
-                if (dataGenres == null) {
-                    dataGenres = movie.genres[i]
+                dataGenres = if (dataGenres == null) {
+                    movie.genres[i]
                 } else {
-                    dataGenres = dataGenres + ", " + movie.genres[i]
+                    dataGenres + ", " + movie.genres[i]
                 }
             }
             tvGenre.text = dataGenres

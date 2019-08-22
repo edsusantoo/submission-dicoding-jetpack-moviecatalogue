@@ -1,7 +1,7 @@
 package com.edsusantoo.bismillah.moviecatalogue.ui.utils
 
-class FakeConstans {
+class FakeConstants {
     companion object {
-        val EXTRAS_MOVIE = "extras_movie"
+        const val EXTRAS_MOVIE = "extras_movie"
     }
 }
