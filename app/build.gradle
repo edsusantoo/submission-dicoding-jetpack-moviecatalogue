@@ -6,6 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 28
+    flavorDimensions "default"
     defaultConfig {
         applicationId "com.edsusantoo.bismillah.moviecatalogue"
         minSdkVersion 21
@@ -22,6 +23,15 @@ android {
         debug {
             applicationIdSuffix ".debug"
             debuggable true
+        }
+    }
+
+    def BaseURL
+    productFlavors {
+        MovieCatalogue {
+            BaseURL = "https://api.themoviedb.org/3/"
+            buildConfigField("String", "BASE_URL", "\""+BaseURL+"\"")
+            buildConfigField("String", "API_KEY", "\"50ec555cc1d67559ec5eb1bff307acce\"")
         }
     }
 
@@ -58,6 +68,22 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
+
+    // reactive
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.11'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+
+    //okhttp3
+    implementation 'com.squareup.okhttp3:okhttp:4.1.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     // Dependencies for Paging
     implementation "androidx.paging:paging-runtime:$pagingVersion"
