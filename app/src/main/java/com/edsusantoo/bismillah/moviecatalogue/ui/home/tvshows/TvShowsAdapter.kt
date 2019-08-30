@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.edsusantoo.bismillah.moviecatalogue.R
 import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesModel
 import com.edsusantoo.bismillah.moviecatalogue.ui.detail.DetailActivity
@@ -28,7 +29,7 @@ class TvShowsAdapter(private val context: Context?) : RecyclerView.Adapter<TvSho
     }
 
     override fun onBindViewHolder(holder: TvShowsViewHolder, position: Int) {
-        holder.bind(data[position])
+        holder.bind(data[position], context)
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)
             intent.putExtra(
@@ -56,18 +57,21 @@ class TvShowsAdapter(private val context: Context?) : RecyclerView.Adapter<TvSho
         private val tvRate: TextView = view.tv_rate
         private val imgPoster: ImageView = view.img_poster
 
-        fun bind(movie: MoviesModel) {
+        fun bind(movie: MoviesModel, context: Context?) {
             tvTitle.text = movie.title
             var dataGenres: String? = null
             for (i in 0 until movie.genres.size) {
-                if (dataGenres == null) {
-                    dataGenres = movie.genres[i]
+                dataGenres = if (dataGenres == null) {
+                    movie.genres[i]
                 } else {
-                    dataGenres = dataGenres + ", " + movie.genres[i]
+                    dataGenres + ", " + movie.genres[i]
                 }
             }
             tvGenre.text = dataGenres
             tvRate.text = movie.rate
+            Glide.with(context!!)
+                .load("${Constants.URL_POSTER}${movie.poster}")
+                .into(imgPoster)
         }
     }
 
