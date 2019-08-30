@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.edsusantoo.bismillah.moviecatalogue.R
-import com.edsusantoo.bismillah.moviecatalogue.data.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesModel
 import com.edsusantoo.bismillah.moviecatalogue.ui.detail.DetailActivity
 import com.edsusantoo.bismillah.moviecatalogue.utils.Constants
 import kotlinx.android.synthetic.main.item_movies.view.*
@@ -38,7 +38,7 @@ class TvShowsAdapter(private val context: Context?) : RecyclerView.Adapter<TvSho
                     data[position].rate,
                     data[position].genres,
                     data[position].poster
-            )
+                )
             )
 
             context?.startActivity(intent)
@@ -68,7 +68,6 @@ class TvShowsAdapter(private val context: Context?) : RecyclerView.Adapter<TvSho
             }
             tvGenre.text = dataGenres
             tvRate.text = movie.rate
-            imgPoster.setImageResource(movie.poster)
         }
     }
 

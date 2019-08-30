@@ -8,8 +8,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.edsusantoo.bismillah.moviecatalogue.R
-import com.edsusantoo.bismillah.moviecatalogue.data.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesModel
 import com.edsusantoo.bismillah.moviecatalogue.ui.detail.DetailActivity
 import com.edsusantoo.bismillah.moviecatalogue.utils.Constants
 import kotlinx.android.synthetic.main.item_movies.view.*
@@ -44,7 +45,7 @@ class MoviesAdapter(private val context: Context?) : RecyclerView.Adapter<Movies
                     data[position].rate,
                     data[position].genres,
                     data[position].poster
-            )
+                )
             )
 
             context?.startActivity(intent)
@@ -69,7 +70,10 @@ class MoviesAdapter(private val context: Context?) : RecyclerView.Adapter<Movies
             }
             tvGenre.text = dataGenres
             tvRate.text = movie.rate
-            imgPoster.setImageResource(movie.poster)
+            Glide.with(context!!)
+                .load("${Constants.URL_POSTER}${movie.poster}")
+                .into(imgPoster)
+
         }
     }
 

@@ -1,6 +1,6 @@
 package com.edsusantoo.bismillah.moviecatalogue.ui.home.tvshows
 
-import com.edsusantoo.bismillah.moviecatalogue.data.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before

@@ -1,7 +1,6 @@
 package com.edsusantoo.bismillah.moviecatalogue.ui.detail
 
-import com.edsusantoo.bismillah.moviecatalogue.R
-import com.edsusantoo.bismillah.moviecatalogue.data.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -21,11 +20,11 @@ class DetailViewModelTest {
         genresAquaman.add("Adventure")
         genresAquaman.add("Fantasy")
         dummyDetailMovie = MoviesModel(
-                "Aquaman",
-                "Once home to the most advanced civilization on Earth, Atlantis is now an underwater kingdom ruled by the power-hungry King Orm. With a vast army at his disposal, Orm plans to conquer the remaining oceanic people and then the surface world. Standing in his way is Arthur Curry, Orm's half-human, half-Atlantean brother and true heir to the throne.",
-                "68%",
-                genresAquaman,
-                R.drawable.poster_aquaman
+            "Aquaman",
+            "Once home to the most advanced civilization on Earth, Atlantis is now an underwater kingdom ruled by the power-hungry King Orm. With a vast army at his disposal, Orm plans to conquer the remaining oceanic people and then the surface world. Standing in his way is Arthur Curry, Orm's half-human, half-Atlantean brother and true heir to the throne.",
+            "68%",
+            genresAquaman,
+            "https://"
         )
     }
 

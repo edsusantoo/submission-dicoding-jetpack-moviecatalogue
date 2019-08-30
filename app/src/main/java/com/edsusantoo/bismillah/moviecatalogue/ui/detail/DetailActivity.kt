@@ -3,6 +3,7 @@ package com.edsusantoo.bismillah.moviecatalogue.ui.detail
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import com.edsusantoo.bismillah.moviecatalogue.R
 import com.edsusantoo.bismillah.moviecatalogue.utils.Constants
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -45,7 +46,9 @@ class DetailActivity : AppCompatActivity() {
 
         tv_description.text = detailViewModel.getMovieDetail()?.description
 
-        img_poster.setImageResource(detailViewModel.getMovieDetail()!!.poster)
+        Glide.with(this)
+            .load("${Constants.URL_POSTER}${detailViewModel.getMovieDetail()?.poster}")
+            .into(img_poster)
 
     }
 }
