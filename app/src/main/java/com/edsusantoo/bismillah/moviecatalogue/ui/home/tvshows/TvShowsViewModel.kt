@@ -10,6 +10,7 @@ import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesModel
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.genres.GenresResponse
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.tvshows.Result
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.tvshows.TvShowsResponse
+import com.edsusantoo.bismillah.moviecatalogue.utils.EspressoIdlingResource
 import com.edsusantoo.bismillah.moviecatalogue.utils.MovieCatalogueFunction
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,6 +24,7 @@ class TvShowsViewModel : ViewModel() {
     private val isLoading = MutableLiveData<Boolean>()
 
     fun getTvShows(): LiveData<MoviesCatalogueModel> {
+        EspressoIdlingResource.increment()
 
         isLoading.postValue(true)
         movieCatalogueRepository.isCompositeDisposable().add(
@@ -38,6 +40,9 @@ class TvShowsViewModel : ViewModel() {
                 .subscribe(
                     {
                         isLoading.postValue(false)
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
                     },
                     { errorMessage ->
                         isLoading.postValue(false)
