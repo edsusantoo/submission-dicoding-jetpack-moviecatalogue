@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.edsusantoo.bismillah.moviecatalogue.BuildConfig
 import com.edsusantoo.bismillah.moviecatalogue.data.MovieCatalogueRepository
-import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesCatalogueModel
-import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesCatalogueModel
+import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.genres.GenresResponse
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.movie.MoviesResponse
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.movie.Result

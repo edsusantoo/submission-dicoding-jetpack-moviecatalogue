@@ -1,7 +1,7 @@
 package com.edsusantoo.bismillah.moviecatalogue.ui.detail
 
 import androidx.lifecycle.ViewModel
-import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
 
 class DetailViewModel : ViewModel() {
     private var moviesModel: MoviesModel? = null

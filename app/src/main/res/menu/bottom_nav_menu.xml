@@ -4,7 +4,7 @@
     <item
             android:id="@+id/navigation_movies"
             android:icon="@drawable/ic_movie_white"
-            android:title="@string/movies"/>
+            android:title="@string/moviesEntity"/>
 
     <item
             android:id="@+id/navigation_tv_shows"

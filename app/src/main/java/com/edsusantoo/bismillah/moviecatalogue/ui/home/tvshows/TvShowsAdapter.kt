@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.edsusantoo.bismillah.moviecatalogue.R
-import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
 import com.edsusantoo.bismillah.moviecatalogue.ui.detail.DetailActivity
 import com.edsusantoo.bismillah.moviecatalogue.utils.Constants
 import kotlinx.android.synthetic.main.item_movies.view.*

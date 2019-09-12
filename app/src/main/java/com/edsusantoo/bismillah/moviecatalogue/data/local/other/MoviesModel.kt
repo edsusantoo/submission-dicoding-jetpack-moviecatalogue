@@ -1,4 +1,4 @@
-package com.edsusantoo.bismillah.moviecatalogue.data.local
+package com.edsusantoo.bismillah.moviecatalogue.data.local.other
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

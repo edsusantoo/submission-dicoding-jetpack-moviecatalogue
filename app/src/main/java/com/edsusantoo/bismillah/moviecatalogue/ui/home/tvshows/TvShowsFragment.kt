@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.edsusantoo.bismillah.moviecatalogue.R
-import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
 import kotlinx.android.synthetic.main.fragment_tv_shows.*
 
 

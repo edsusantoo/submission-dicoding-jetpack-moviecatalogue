@@ -3,7 +3,7 @@ package com.edsusantoo.bismillah.moviecatalogue.ui.home.tvshows
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesCatalogueModel
+import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesCatalogueModel
 import com.edsusantoo.bismillah.moviecatalogue.utils.FakeDataDummy
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
@@ -34,7 +34,8 @@ class TvShowsViewModelTest {
 
     @Test
     fun getTvShows() {
-        val dummyTvShows = MoviesCatalogueModel(FakeDataDummy.getTvShows())
+        val dummyTvShows =
+            MoviesCatalogueModel(FakeDataDummy.getTvShows())
 
         val tvShows: MutableLiveData<MoviesCatalogueModel> = MutableLiveData()
         tvShows.value = dummyTvShows

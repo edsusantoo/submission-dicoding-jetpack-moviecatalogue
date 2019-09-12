@@ -3,7 +3,7 @@ package com.edsusantoo.bismillah.moviecatalogue.ui.home.movies
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesCatalogueModel
+import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesCatalogueModel
 import com.edsusantoo.bismillah.moviecatalogue.utils.FakeDataDummy
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
@@ -14,7 +14,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 
-class MoviesViewModelTest {
+class MoviesEntityViewModelTest {
 
     @get:Rule
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
@@ -37,7 +37,8 @@ class MoviesViewModelTest {
     @Test
     fun getMovie() {
 
-        val dummyMovie = MoviesCatalogueModel(FakeDataDummy.getMovies())
+        val dummyMovie =
+            MoviesCatalogueModel(FakeDataDummy.getMovies())
 
         val movie: MutableLiveData<MoviesCatalogueModel> = MutableLiveData()
         movie.value = dummyMovie

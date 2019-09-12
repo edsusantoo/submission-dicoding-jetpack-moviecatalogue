@@ -1,6 +1,6 @@
 package com.edsusantoo.bismillah.moviecatalogue.utils
 
-import com.edsusantoo.bismillah.moviecatalogue.data.local.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
 
 class FakeDataDummy {
     companion object {
