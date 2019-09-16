@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.edsusantoo.bismillah.moviecatalogue.R
 import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies.*
 
 class MoviesFragment : Fragment() {
@@ -21,6 +23,11 @@ class MoviesFragment : Fragment() {
     companion object {
         fun newInstance(): Fragment {
             return MoviesFragment()
+        }
+
+        private fun obtainViewModel(activity: FragmentActivity): MoviesViewModel {
+            val factory = ViewModelFactory.getInstance(activity.application)
+            return ViewModelProviders.of(activity, factory).get(MoviesViewModel::class.java)
         }
     }
 
@@ -34,7 +41,7 @@ class MoviesFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
-            moviesViewModel = ViewModelProviders.of(activity!!).get(MoviesViewModel::class.java)
+            moviesViewModel = obtainViewModel(activity!!)
             setup()
 
             observerLoading()

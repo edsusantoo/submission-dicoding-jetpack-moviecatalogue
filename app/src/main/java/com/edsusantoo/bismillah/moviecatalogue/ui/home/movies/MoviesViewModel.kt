@@ -3,13 +3,13 @@ package com.edsusantoo.bismillah.moviecatalogue.ui.home.movies
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.edsusantoo.bismillah.moviecatalogue.BuildConfig
 import com.edsusantoo.bismillah.moviecatalogue.data.MovieCatalogueRepository
 import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesCatalogueModel
 import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.genres.GenresResponse
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.movie.MoviesResponse
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.movie.Result
+import com.edsusantoo.bismillah.moviecatalogue.utils.Constants
 import com.edsusantoo.bismillah.moviecatalogue.utils.EspressoIdlingResource
 import com.edsusantoo.bismillah.moviecatalogue.utils.MovieCatalogueFunction
 import io.reactivex.Single
@@ -17,9 +17,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 
-class MoviesViewModel : ViewModel() {
+class MoviesViewModel(
+    private val movieCatalogueRepository: MovieCatalogueRepository?
+) : ViewModel() {
 
-    private val movieCatalogueRepository = MovieCatalogueRepository()
     private val dataMovie = MutableLiveData<MoviesCatalogueModel>()
     private val errorMassage = MutableLiveData<String>()
     private val isLoading = MutableLiveData<Boolean>()
@@ -30,10 +31,10 @@ class MoviesViewModel : ViewModel() {
 
         isLoading.postValue(true)
 
-        movieCatalogueRepository.isCompositeDisposable().add(
+        movieCatalogueRepository?.isCompositeDisposable()?.add(
             Single.zip(
-                movieCatalogueRepository.getMovies(BuildConfig.API_KEY, "en-US"),
-                movieCatalogueRepository.getGenresMovies(BuildConfig.API_KEY),
+                movieCatalogueRepository.getMovies("en-US"),
+                movieCatalogueRepository.getGenresMovies(),
                 BiFunction<MoviesResponse, GenresResponse, Unit>
                 { movies, genres -> setMoviesAndGenres(movies, genres) }
             )
@@ -61,11 +62,14 @@ class MoviesViewModel : ViewModel() {
         for (i in 0 until moviesResponse.results.size) {
             movies.add(
                 MoviesModel(
+                    moviesResponse.results[i].id,
                     moviesResponse.results[i].title,
                     moviesResponse.results[i].overview,
                     MovieCatalogueFunction.convertRate(moviesResponse.results[i].voteAverage) + "%",
                     getGenres(moviesResponse.results[i], genresResponse),
-                    moviesResponse.results[i].backdropPath
+                    moviesResponse.results[i].backdropPath,
+                    Constants.MOVIE
+
                 )
             )
         }
@@ -96,6 +100,6 @@ class MoviesViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        movieCatalogueRepository.isCompositeDisposable().dispose()
+        movieCatalogueRepository?.isCompositeDisposable()?.dispose()
     }
 }

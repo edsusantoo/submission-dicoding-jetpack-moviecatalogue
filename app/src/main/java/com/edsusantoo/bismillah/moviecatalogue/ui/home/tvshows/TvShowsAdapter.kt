@@ -34,11 +34,13 @@ class TvShowsAdapter(private val context: Context?) : RecyclerView.Adapter<TvSho
             val intent = Intent(context, DetailActivity::class.java)
             intent.putExtra(
                 Constants.EXTRAS_MOVIE, MoviesModel(
+                    data[position].id,
                     data[position].title,
                     data[position].description,
                     data[position].rate,
                     data[position].genres,
-                    data[position].poster
+                    data[position].poster,
+                    Constants.TVSHOW
                 )
             )
 

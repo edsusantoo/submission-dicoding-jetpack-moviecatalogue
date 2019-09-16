@@ -3,13 +3,13 @@ package com.edsusantoo.bismillah.moviecatalogue.ui.home.tvshows
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.edsusantoo.bismillah.moviecatalogue.BuildConfig
 import com.edsusantoo.bismillah.moviecatalogue.data.MovieCatalogueRepository
 import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesCatalogueModel
 import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.genres.GenresResponse
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.tvshows.Result
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.tvshows.TvShowsResponse
+import com.edsusantoo.bismillah.moviecatalogue.utils.Constants
 import com.edsusantoo.bismillah.moviecatalogue.utils.EspressoIdlingResource
 import com.edsusantoo.bismillah.moviecatalogue.utils.MovieCatalogueFunction
 import io.reactivex.Single
@@ -17,8 +17,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 
-class TvShowsViewModel : ViewModel() {
-    private val movieCatalogueRepository = MovieCatalogueRepository()
+class TvShowsViewModel(
+    private val movieCatalogueRepository: MovieCatalogueRepository?
+) : ViewModel() {
     private val dataTvShows = MutableLiveData<MoviesCatalogueModel>()
     private val errorMassage = MutableLiveData<String>()
     private val isLoading = MutableLiveData<Boolean>()
@@ -27,10 +28,10 @@ class TvShowsViewModel : ViewModel() {
         EspressoIdlingResource.increment()
 
         isLoading.postValue(true)
-        movieCatalogueRepository.isCompositeDisposable().add(
+        movieCatalogueRepository?.isCompositeDisposable()?.add(
             Single.zip(
-                movieCatalogueRepository.getTvShows(BuildConfig.API_KEY, "en-US"),
-                movieCatalogueRepository.getGenresTvShows(BuildConfig.API_KEY),
+                movieCatalogueRepository.getTvShows("en-US"),
+                movieCatalogueRepository.getGenresTvShows(),
                 BiFunction<TvShowsResponse, GenresResponse, Unit> { tv_shows, genres ->
                     setTvShowsAndGenres(tv_shows, genres)
                 }
@@ -61,11 +62,13 @@ class TvShowsViewModel : ViewModel() {
         for (i in 0 until tvShowsResponse.results.size) {
             movies.add(
                 MoviesModel(
+                    tvShowsResponse.results[i].id,
                     tvShowsResponse.results[i].name,
                     tvShowsResponse.results[i].overview,
                     MovieCatalogueFunction.convertRate(tvShowsResponse.results[i].voteAverage) + "%",
                     getGenres(tvShowsResponse.results[i], genresResponse),
-                    tvShowsResponse.results[i].backdropPath
+                    tvShowsResponse.results[i].backdropPath,
+                    Constants.TVSHOW
                 )
             )
         }
@@ -96,6 +99,6 @@ class TvShowsViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        movieCatalogueRepository.isCompositeDisposable().dispose()
+        movieCatalogueRepository?.isCompositeDisposable()?.dispose()
     }
 }

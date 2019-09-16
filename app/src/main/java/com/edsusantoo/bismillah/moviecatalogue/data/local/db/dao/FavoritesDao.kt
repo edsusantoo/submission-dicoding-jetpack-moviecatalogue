@@ -1,8 +1,8 @@
 package com.edsusantoo.bismillah.moviecatalogue.data.local.db.dao
 
-import androidx.paging.DataSource
 import androidx.room.*
 import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.FavoritesEntity
+import io.reactivex.Maybe
 
 @Dao
 interface FavoritesDao {
@@ -14,5 +14,5 @@ interface FavoritesDao {
     fun delete(favoritesEntity: FavoritesEntity)
 
     @Query("SELECT * FROM favorites WHERE movie_id =:movie_id")
-    fun getMovieFavorites(movie_id: Int): DataSource<Int, FavoritesEntity>
+    fun getMovieIfFavorite(movie_id: Int): Maybe<FavoritesEntity>
 }

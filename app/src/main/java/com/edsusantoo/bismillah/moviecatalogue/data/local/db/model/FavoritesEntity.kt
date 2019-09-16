@@ -21,5 +21,5 @@ data class FavoritesEntity(
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "favorite_id")
-    val favoriteId: Int = 0
+    var favoriteId: Int = 0
 }
