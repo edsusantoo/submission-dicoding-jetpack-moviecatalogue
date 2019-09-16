@@ -5,6 +5,7 @@ import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.edsusantoo.bismillah.moviecatalogue.R
+import com.edsusantoo.bismillah.moviecatalogue.ui.home.favorites.FavoriteFragment
 import com.edsusantoo.bismillah.moviecatalogue.ui.home.movies.MoviesFragment
 import com.edsusantoo.bismillah.moviecatalogue.ui.home.tvshows.TvShowsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -23,13 +24,16 @@ class HomeActivity : AppCompatActivity() {
             R.id.navigation_tv_shows -> {
                 fragment = TvShowsFragment.newInstance()
             }
+            R.id.navigation_favorite -> {
+                fragment = FavoriteFragment.getInstance()
+            }
         }
 
         if (fragment != null) {
             supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.container, fragment)
-                    .commit()
+                .beginTransaction()
+                .replace(R.id.frame_container, fragment)
+                .commit()
         }
 
         return@OnNavigationItemSelectedListener true

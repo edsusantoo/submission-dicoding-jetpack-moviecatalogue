@@ -12,4 +12,9 @@
         <item name="fontFamily">@font/quicksand_bold</item>
     </style>
 
+    <style name="tab_item_custom_font" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">@font/quicksand_regular</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
 </resources>
