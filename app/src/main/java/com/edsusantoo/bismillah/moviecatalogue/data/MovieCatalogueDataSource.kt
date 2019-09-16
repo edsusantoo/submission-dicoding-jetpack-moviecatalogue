@@ -23,6 +23,8 @@ interface MovieCatalogueDataSource {
 
     fun deleteFavorite(favoritesEntity: FavoritesEntity)
 
+    fun deleteMovie(moviesEntity: MoviesEntity)
+
     fun insertMovies(moviesEntity: MoviesEntity)
 
     fun getMovieIfFavorite(movieId: Int): Maybe<FavoritesEntity>?

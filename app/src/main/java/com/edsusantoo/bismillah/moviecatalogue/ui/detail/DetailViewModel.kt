@@ -131,6 +131,26 @@ class DetailViewModel(
             })
     }
 
+    fun deleteMovie(moviesEntity: MoviesEntity) {
+        Completable.fromAction {
+            movieCatalogueRepository?.deleteMovie(moviesEntity)
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : CompletableObserver {
+                override fun onSubscribe(d: Disposable) {
+
+                }
+
+                override fun onComplete() {
+                    successMessage.value = "Movie Berhasil Dihapus"
+                }
+
+                override fun onError(e: Throwable) {
+                    mErrorMessage.value = e.message
+                }
+            })
+    }
+
     override fun onCleared() {
         super.onCleared()
         movieCatalogueRepository?.isCompositeDisposable()?.dispose()

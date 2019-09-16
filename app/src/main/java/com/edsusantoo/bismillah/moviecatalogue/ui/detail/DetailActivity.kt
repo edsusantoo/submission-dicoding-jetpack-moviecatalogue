@@ -73,14 +73,32 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun onClick() {
+
+        val genres = DataConverter.listToJsonString(getDataIntent().genres)
+
         fab_favorite.setOnClickListener {
             when (getDataIntent().type) {
                 Constants.MOVIE -> {
                     if (favorite != null && favorite?.movieId == getDataIntent().id) {
                         fab_favorite.setImageResource(R.drawable.ic_favorite_border_dislike)
+                        detailViewModel.deleteFavorite(
+                            FavoritesEntity(
+                                getDataIntent().id
+                            )
+                        )
+
+                        detailViewModel.deleteMovie(
+                            MoviesEntity(
+                                getDataIntent().id,
+                                getDataIntent().title,
+                                getDataIntent().description,
+                                genres,
+                                getDataIntent().rate,
+                                getDataIntent().type
+                            )
+                        )
                     } else {
                         fab_favorite.setImageResource(R.drawable.ic_favorite_like)
-                        val genres = DataConverter.listToJsonString(getDataIntent().genres)
                         detailViewModel.insertMovie(
                             MoviesEntity(
                                 getDataIntent().id,

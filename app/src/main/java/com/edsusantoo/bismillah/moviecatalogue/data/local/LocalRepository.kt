@@ -34,6 +34,10 @@ class LocalRepository(
         favoritesDao.delete(favoritesEntity)
     }
 
+    fun deleteMovie(moviesEntity: MoviesEntity) {
+        moviesDao.delete(moviesEntity)
+    }
+
     fun getMovieIfFavorite(movie_id: Int): Maybe<FavoritesEntity> {
         return favoritesDao.getMovieIfFavorite(movie_id)
     }

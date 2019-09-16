@@ -15,7 +15,6 @@ class MovieCatalogueRepository(
     private val localRepository: LocalRepository?,
     private val remoteRepository: RemoteRepository
 ) : MovieCatalogueDataSource {
-
     companion object {
         private var INSTANCE: MovieCatalogueRepository? = null
         fun getInstance(
@@ -55,6 +54,10 @@ class MovieCatalogueRepository(
 
     override fun deleteFavorite(favoritesEntity: FavoritesEntity) {
         localRepository?.deleteFavorite(favoritesEntity)
+    }
+
+    override fun deleteMovie(moviesEntity: MoviesEntity) {
+        localRepository?.deleteMovie(moviesEntity)
     }
 
     override fun insertMovies(moviesEntity: MoviesEntity) {
