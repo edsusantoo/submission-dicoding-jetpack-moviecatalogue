@@ -13,7 +13,8 @@ class Injection {
             val database = MovieCatalogueDatabase.getInstance(application.applicationContext)
             val localRepository = LocalRepository.getInstance(
                 database.moviesDao(),
-                database.favoritesDao()
+                database.favoritesDao(),
+                database.moviesFavoritesDao()
             )
 
             return MovieCatalogueRepository.getInstance(localRepository, remoteRepository)

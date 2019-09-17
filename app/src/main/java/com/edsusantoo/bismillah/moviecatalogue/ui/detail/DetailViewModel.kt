@@ -4,8 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.edsusantoo.bismillah.moviecatalogue.data.MovieCatalogueRepository
-import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.FavoritesEntity
-import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesEntity
+import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesFavoritesEntity
 import io.reactivex.Completable
 import io.reactivex.CompletableObserver
 import io.reactivex.MaybeObserver
@@ -19,12 +18,12 @@ class DetailViewModel(
 ) : ViewModel() {
 
 
-    private val movieIsFavorite = MutableLiveData<FavoritesEntity>()
+    private val movieIsFavorite = MutableLiveData<MoviesFavoritesEntity>()
     private val mErrorMessage = MutableLiveData<String>()
     private val successMessage = MutableLiveData<String>()
     private val isLoading = MutableLiveData<Boolean>()
 
-    fun getMovieIsFavorite(): LiveData<FavoritesEntity> {
+    fun getMovieIsFavorite(): LiveData<MoviesFavoritesEntity> {
         return movieIsFavorite
     }
 
@@ -40,12 +39,12 @@ class DetailViewModel(
         return successMessage
     }
 
-    fun getMovieIsFavorite(movieId: Int): LiveData<FavoritesEntity> {
-        movieCatalogueRepository?.getMovieIfFavorite(movieId)
+    fun getMovieIsFavorite(movieName: String) {
+        movieCatalogueRepository?.getMoviesIfFavorites(movieName)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
-            ?.subscribe(object : MaybeObserver<FavoritesEntity> {
-                override fun onSuccess(t: FavoritesEntity) {
+            ?.subscribe(object : MaybeObserver<MoviesFavoritesEntity> {
+                override fun onSuccess(t: MoviesFavoritesEntity) {
                     movieIsFavorite.value = t
                 }
 
@@ -62,14 +61,12 @@ class DetailViewModel(
                 }
 
             })
-
-        return movieIsFavorite
     }
 
 
-    fun insertFavorite(favoritesEntity: FavoritesEntity) {
+    fun insertFavorite(moviesFavoritesEntity: MoviesFavoritesEntity) {
         Completable.fromAction {
-            movieCatalogueRepository?.insertFavorites(favoritesEntity)
+            movieCatalogueRepository?.insertMoviesFavorites(moviesFavoritesEntity)
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
@@ -89,51 +86,10 @@ class DetailViewModel(
             })
     }
 
-    fun insertMovie(moviesEntity: MoviesEntity) {
+
+    fun deleteMovie(moviesFavoritesEntity: MoviesFavoritesEntity) {
         Completable.fromAction {
-            movieCatalogueRepository?.insertMovies(moviesEntity)
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : CompletableObserver {
-                override fun onComplete() {
-
-                }
-
-                override fun onSubscribe(d: Disposable) {
-                }
-
-                override fun onError(e: Throwable) {
-                    mErrorMessage.value = e.message
-                }
-
-            })
-
-    }
-
-
-    fun deleteFavorite(favoritesEntity: FavoritesEntity) {
-        Completable.fromAction {
-            movieCatalogueRepository?.deleteFavorite(favoritesEntity)
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : CompletableObserver {
-                override fun onSubscribe(d: Disposable) {
-
-                }
-
-                override fun onComplete() {
-                    successMessage.value = "Favorite Berhasil Dihapus"
-                }
-
-                override fun onError(e: Throwable) {
-                    mErrorMessage.value = e.message
-                }
-            })
-    }
-
-    fun deleteMovie(moviesEntity: MoviesEntity) {
-        Completable.fromAction {
-            movieCatalogueRepository?.deleteMovie(moviesEntity)
+            movieCatalogueRepository?.deleteMoviesFavorites(moviesFavoritesEntity)
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {

@@ -12,9 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.edsusantoo.bismillah.moviecatalogue.R
-import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesEntity
 import com.edsusantoo.bismillah.moviecatalogue.ui.home.favorites.adapter.FavoritesAdapter
-import com.edsusantoo.bismillah.moviecatalogue.utils.Constants
 import com.edsusantoo.bismillah.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies_favorite.*
 
@@ -49,13 +47,12 @@ class MoviesFavoriteFragment : Fragment() {
         if (activity != null) {
             viewModel = obtainViewModel(activity!!)
 
+            setup()
 
             observerIsLoading()
             observerErrorMessage()
-            observerMoviesIfFavorite()
-            observerDetailMovies()
+            observerMoviesFavorites()
 
-            viewModel.getMovieIsFavorite()
 
         }
     }
@@ -74,26 +71,17 @@ class MoviesFavoriteFragment : Fragment() {
         })
     }
 
-    private fun observerMoviesIfFavorite() {
-        viewModel.getDataMovieIfFavorite().observe(this, Observer {
-            for (data in it) {
-                viewModel.getDetailMovie(data.movieId, Constants.MOVIE)
+    private fun observerMoviesFavorites() {
+        viewModel.getAllMoviesFavorites().observe(this, Observer {
+            if (it != null) {
+                adapterFavorite.submitList(it)
             }
         })
     }
 
-    private fun observerDetailMovies() {
-        viewModel.getDataDetailMovies().observe(this, Observer {
-            if (it != null && it.isNotEmpty()) {
-                onLoadFavorite(it)
-            }
 
-        })
-
-    }
-
-    private fun onLoadFavorite(data: List<MoviesEntity>) {
-        adapterFavorite = FavoritesAdapter(data, activity)
+    private fun setup() {
+        adapterFavorite = FavoritesAdapter(activity)
         rv_favorites_movie.layoutManager = LinearLayoutManager(activity)
         rv_favorites_movie.adapter = adapterFavorite
     }

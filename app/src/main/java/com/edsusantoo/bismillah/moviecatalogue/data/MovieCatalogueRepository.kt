@@ -1,8 +1,8 @@
 package com.edsusantoo.bismillah.moviecatalogue.data
 
+import androidx.paging.DataSource
 import com.edsusantoo.bismillah.moviecatalogue.data.local.LocalRepository
-import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.FavoritesEntity
-import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesEntity
+import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesFavoritesEntity
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.RemoteRepository
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.genres.GenresResponse
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.movie.MoviesResponse
@@ -48,32 +48,20 @@ class MovieCatalogueRepository(
         return remoteRepository.getGenresTvShows()
     }
 
-    override fun insertFavorites(favoritesEntity: FavoritesEntity) {
-        localRepository?.insertFavorite(favoritesEntity)
+    override fun insertMoviesFavorites(moviesFavoritesEntity: MoviesFavoritesEntity) {
+        localRepository?.insertMoviesFavorites(moviesFavoritesEntity)
     }
 
-    override fun deleteFavorite(favoritesEntity: FavoritesEntity) {
-        localRepository?.deleteFavorite(favoritesEntity)
+    override fun deleteMoviesFavorites(moviesFavoritesEntity: MoviesFavoritesEntity) {
+        localRepository?.deleteMoviesFavorites(moviesFavoritesEntity)
     }
 
-    override fun deleteMovie(moviesEntity: MoviesEntity) {
-        localRepository?.deleteMovie(moviesEntity)
+    override fun getAllMoviesFavorites(): DataSource.Factory<Int, MoviesFavoritesEntity>? {
+        return localRepository?.getAllMoviesFavorites()
     }
 
-    override fun insertMovies(moviesEntity: MoviesEntity) {
-        localRepository?.insertMovie(moviesEntity)
-    }
-
-    override fun getMovieIfFavorite(movieId: Int): Maybe<FavoritesEntity>? {
-        return localRepository?.getMovieIfFavorite(movieId)
-    }
-
-    override fun getAllFavorites(): Maybe<List<FavoritesEntity>>? {
-        return localRepository?.getAllFavorites()
-    }
-
-    override fun getMoviesWhereType(movieId: Int, type: String): Maybe<List<MoviesEntity>>? {
-        return localRepository?.getMoviesWhereType(movieId, type)
+    override fun getMoviesIfFavorites(movieName: String): Maybe<MoviesFavoritesEntity>? {
+        return localRepository?.getMoviesIfFavorites(movieName)
     }
 
     override fun isCompositeDisposable(): CompositeDisposable {

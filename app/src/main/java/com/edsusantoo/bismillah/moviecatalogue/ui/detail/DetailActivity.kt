@@ -7,8 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.edsusantoo.bismillah.moviecatalogue.R
-import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.FavoritesEntity
-import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesEntity
+import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesFavoritesEntity
 import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
 import com.edsusantoo.bismillah.moviecatalogue.utils.Constants
 import com.edsusantoo.bismillah.moviecatalogue.utils.DataConverter
@@ -18,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_detail.*
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var detailViewModel: DetailViewModel
-    private var favorite: FavoritesEntity? = null
+    private var favorite: MoviesFavoritesEntity? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +38,7 @@ class DetailActivity : AppCompatActivity() {
             observerMovieIsFavorite()
 
 
-            detailViewModel.getMovieIsFavorite(getDataIntent().id)
+            detailViewModel.getMovieIsFavorite(getDataIntent().title)
 
         }
     }
@@ -79,42 +78,32 @@ class DetailActivity : AppCompatActivity() {
         fab_favorite.setOnClickListener {
             when (getDataIntent().type) {
                 Constants.MOVIE -> {
-                    if (favorite != null && favorite?.movieId == getDataIntent().id) {
+                    if (favorite != null && favorite?.movie_name == getDataIntent().title) {
                         fab_favorite.setImageResource(R.drawable.ic_favorite_border_dislike)
-                        detailViewModel.deleteFavorite(
-                            FavoritesEntity(
-                                getDataIntent().id
+                        detailViewModel
+                            .deleteMovie(
+                                MoviesFavoritesEntity(
+                                    getDataIntent().title,
+                                    getDataIntent().description,
+                                    genres,
+                                    getDataIntent().rate,
+                                    getDataIntent().type,
+                                    getDataIntent().poster
+                                )
                             )
-                        )
-
-                        detailViewModel.deleteMovie(
-                            MoviesEntity(
-                                getDataIntent().id,
-                                getDataIntent().title,
-                                getDataIntent().description,
-                                genres,
-                                getDataIntent().rate,
-                                getDataIntent().type,
-                                getDataIntent().poster
-                            )
-                        )
                     } else {
                         fab_favorite.setImageResource(R.drawable.ic_favorite_like)
-                        detailViewModel.insertMovie(
-                            MoviesEntity(
-                                getDataIntent().id,
-                                getDataIntent().title,
-                                getDataIntent().description,
-                                genres,
-                                getDataIntent().rate,
-                                getDataIntent().type,
-                                getDataIntent().poster
+                        detailViewModel
+                            .insertFavorite(
+                                MoviesFavoritesEntity(
+                                    getDataIntent().title,
+                                    getDataIntent().description,
+                                    genres,
+                                    getDataIntent().rate,
+                                    getDataIntent().type,
+                                    getDataIntent().poster
+                                )
                             )
-                        )
-
-                        detailViewModel.insertFavorite(
-                            FavoritesEntity(getDataIntent().id)
-                        )
                     }
                 }
                 Constants.TVSHOW -> {
@@ -151,7 +140,7 @@ class DetailActivity : AppCompatActivity() {
     private fun observerMovieIsFavorite() {
         detailViewModel.getMovieIsFavorite().observe(this, Observer {
             favorite = it
-            if (it.movieId == getDataIntent().id) {
+            if (it.movie_name == getDataIntent().title) {
                 fab_favorite.setImageResource(R.drawable.ic_favorite_like)
             }
         })

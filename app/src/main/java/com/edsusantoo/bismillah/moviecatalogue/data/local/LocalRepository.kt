@@ -1,52 +1,46 @@
 package com.edsusantoo.bismillah.moviecatalogue.data.local
 
+import androidx.paging.DataSource
 import com.edsusantoo.bismillah.moviecatalogue.data.local.db.dao.FavoritesDao
 import com.edsusantoo.bismillah.moviecatalogue.data.local.db.dao.MoviesDao
-import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.FavoritesEntity
-import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesEntity
+import com.edsusantoo.bismillah.moviecatalogue.data.local.db.dao.MoviesFavoritesDao
+import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesFavoritesEntity
 import io.reactivex.Maybe
 
 class LocalRepository(
     private val moviesDao: MoviesDao,
-    private val favoritesDao: FavoritesDao
+    private val favoritesDao: FavoritesDao,
+    private var moviesFavoritesDao: MoviesFavoritesDao
 ) {
     companion object {
         private var INSTANCE: LocalRepository? = null
-        fun getInstance(moviesDao: MoviesDao, favoritesDao: FavoritesDao): LocalRepository? {
+        fun getInstance(
+            moviesDao: MoviesDao,
+            favoritesDao: FavoritesDao,
+            moviesFavoritesDao: MoviesFavoritesDao
+        ): LocalRepository? {
             if (INSTANCE == null) {
-                INSTANCE = LocalRepository(moviesDao, favoritesDao)
+                INSTANCE = LocalRepository(moviesDao, favoritesDao, moviesFavoritesDao)
             }
 
             return INSTANCE
         }
     }
 
-    fun getAllFavorites(): Maybe<List<FavoritesEntity>> {
-        return favoritesDao.getAllFavorites()
+    fun insertMoviesFavorites(moviesFavoritesEntity: MoviesFavoritesEntity) {
+        moviesFavoritesDao.insert(moviesFavoritesEntity)
     }
 
-    fun insertFavorite(favoritesEntity: FavoritesEntity) {
-        favoritesDao.insert(favoritesEntity)
+    fun deleteMoviesFavorites(moviesFavoritesEntity: MoviesFavoritesEntity) {
+        moviesFavoritesDao.delete(moviesFavoritesEntity)
     }
 
-    fun insertMovie(moviesEntity: MoviesEntity) {
-        moviesDao.insert(moviesEntity)
+    fun getMoviesIfFavorites(movieName: String): Maybe<MoviesFavoritesEntity> {
+        return moviesFavoritesDao.getMoviesIfFavorites(movieName)
     }
 
-    fun deleteFavorite(favoritesEntity: FavoritesEntity) {
-        favoritesDao.delete(favoritesEntity)
-    }
-
-    fun deleteMovie(moviesEntity: MoviesEntity) {
-        moviesDao.delete(moviesEntity)
-    }
-
-    fun getMovieIfFavorite(movie_id: Int): Maybe<FavoritesEntity> {
-        return favoritesDao.getMovieIfFavorite(movie_id)
-    }
-
-    fun getMoviesWhereType(movieId: Int, type: String): Maybe<List<MoviesEntity>> {
-        return moviesDao.getMoviesWhereType(movieId, type)
+    fun getAllMoviesFavorites(): DataSource.Factory<Int, MoviesFavoritesEntity> {
+        return moviesFavoritesDao.getAllMoviesFavorites()
     }
 
 }

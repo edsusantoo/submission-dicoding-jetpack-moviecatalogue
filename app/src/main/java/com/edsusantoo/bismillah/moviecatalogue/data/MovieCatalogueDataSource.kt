@@ -1,7 +1,7 @@
 package com.edsusantoo.bismillah.moviecatalogue.data
 
-import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.FavoritesEntity
-import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesEntity
+import androidx.paging.DataSource
+import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesFavoritesEntity
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.genres.GenresResponse
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.movie.MoviesResponse
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.tvshows.TvShowsResponse
@@ -19,19 +19,13 @@ interface MovieCatalogueDataSource {
 
     fun getGenresMovies(): Single<GenresResponse>
 
-    fun getAllFavorites(): Maybe<List<FavoritesEntity>>?
+    fun getMoviesIfFavorites(movieName: String): Maybe<MoviesFavoritesEntity>?
 
-    fun getMoviesWhereType(movieId: Int, type: String): Maybe<List<MoviesEntity>>?
+    fun getAllMoviesFavorites(): DataSource.Factory<Int, MoviesFavoritesEntity>?
 
-    fun insertFavorites(favoritesEntity: FavoritesEntity)
+    fun insertMoviesFavorites(moviesFavoritesEntity: MoviesFavoritesEntity)
 
-    fun deleteFavorite(favoritesEntity: FavoritesEntity)
-
-    fun deleteMovie(moviesEntity: MoviesEntity)
-
-    fun insertMovies(moviesEntity: MoviesEntity)
-
-    fun getMovieIfFavorite(movieId: Int): Maybe<FavoritesEntity>?
+    fun deleteMoviesFavorites(moviesFavoritesEntity: MoviesFavoritesEntity)
 
     fun isCompositeDisposable(): CompositeDisposable
 
