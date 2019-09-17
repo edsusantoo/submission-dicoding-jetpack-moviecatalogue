@@ -74,7 +74,6 @@ class DetailActivity : AppCompatActivity() {
     private fun onClick() {
 
         val genres = DataConverter.listToJsonString(getDataIntent().genres)
-
         fab_favorite.setOnClickListener {
             when (getDataIntent().type) {
                 Constants.MOVIE -> {

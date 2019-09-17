@@ -79,7 +79,6 @@ class DetailViewModel(
                 }
 
                 override fun onError(e: Throwable) {
-
                     mErrorMessage.value = e.message
                 }
 

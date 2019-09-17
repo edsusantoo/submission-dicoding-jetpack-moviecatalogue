@@ -16,6 +16,7 @@ import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
 import com.edsusantoo.bismillah.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies.*
 
+//TODO:progressbar masih keliatan ketika dipanggil kembali, saat live data ada isinya
 class MoviesFragment : Fragment() {
 
     private lateinit var moviesViewModel: MoviesViewModel

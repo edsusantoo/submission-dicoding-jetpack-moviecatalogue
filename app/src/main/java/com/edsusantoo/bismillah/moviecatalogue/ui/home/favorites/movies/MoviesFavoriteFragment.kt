@@ -74,9 +74,8 @@ class MoviesFavoriteFragment : Fragment() {
 
     private fun observerMoviesFavorites() {
         viewModel.getAllMoviesFavorites(Constants.MOVIE).observe(this, Observer {
-            if (it != null) {
                 adapterFavorite.submitList(it)
-            }
+
         })
     }
 
