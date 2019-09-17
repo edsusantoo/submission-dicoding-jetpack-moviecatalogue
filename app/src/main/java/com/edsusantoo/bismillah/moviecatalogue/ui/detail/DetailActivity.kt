@@ -94,7 +94,8 @@ class DetailActivity : AppCompatActivity() {
                                 getDataIntent().description,
                                 genres,
                                 getDataIntent().rate,
-                                getDataIntent().type
+                                getDataIntent().type,
+                                getDataIntent().poster
                             )
                         )
                     } else {
@@ -106,7 +107,8 @@ class DetailActivity : AppCompatActivity() {
                                 getDataIntent().description,
                                 genres,
                                 getDataIntent().rate,
-                                getDataIntent().type
+                                getDataIntent().type,
+                                getDataIntent().poster
                             )
                         )
 

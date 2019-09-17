@@ -1,6 +1,5 @@
 package com.edsusantoo.bismillah.moviecatalogue.data.local
 
-import androidx.lifecycle.LiveData
 import com.edsusantoo.bismillah.moviecatalogue.data.local.db.dao.FavoritesDao
 import com.edsusantoo.bismillah.moviecatalogue.data.local.db.dao.MoviesDao
 import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.FavoritesEntity
@@ -20,6 +19,10 @@ class LocalRepository(
 
             return INSTANCE
         }
+    }
+
+    fun getAllFavorites(): Maybe<List<FavoritesEntity>> {
+        return favoritesDao.getAllFavorites()
     }
 
     fun insertFavorite(favoritesEntity: FavoritesEntity) {
@@ -42,8 +45,8 @@ class LocalRepository(
         return favoritesDao.getMovieIfFavorite(movie_id)
     }
 
-    fun getMovies(): LiveData<MoviesEntity> {
-        return moviesDao.getAllMovie()
+    fun getMoviesWhereType(movieId: Int, type: String): Maybe<List<MoviesEntity>> {
+        return moviesDao.getMoviesWhereType(movieId, type)
     }
 
 }

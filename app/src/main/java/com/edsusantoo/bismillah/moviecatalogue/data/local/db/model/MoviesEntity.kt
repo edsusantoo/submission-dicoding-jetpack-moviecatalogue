@@ -18,7 +18,9 @@ data class MoviesEntity(
     @ColumnInfo(name = "rate")
     var rate: String,
     @ColumnInfo(name = "type")
-    var type: String
+    var type: String,
+    @ColumnInfo(name = "image")
+    var image: String
 ) {
 
 }

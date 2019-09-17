@@ -19,6 +19,10 @@ interface MovieCatalogueDataSource {
 
     fun getGenresMovies(): Single<GenresResponse>
 
+    fun getAllFavorites(): Maybe<List<FavoritesEntity>>?
+
+    fun getMoviesWhereType(movieId: Int, type: String): Maybe<List<MoviesEntity>>?
+
     fun insertFavorites(favoritesEntity: FavoritesEntity)
 
     fun deleteFavorite(favoritesEntity: FavoritesEntity)

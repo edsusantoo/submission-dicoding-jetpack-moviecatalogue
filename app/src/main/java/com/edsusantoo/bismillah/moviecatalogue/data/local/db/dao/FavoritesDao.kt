@@ -13,6 +13,9 @@ interface FavoritesDao {
     @Delete
     fun delete(favoritesEntity: FavoritesEntity)
 
+    @Query("SELECT * FROM favorites")
+    fun getAllFavorites(): Maybe<List<FavoritesEntity>>
+
     @Query("SELECT * FROM favorites WHERE movie_id =:movie_id")
     fun getMovieIfFavorite(movie_id: Int): Maybe<FavoritesEntity>
 }

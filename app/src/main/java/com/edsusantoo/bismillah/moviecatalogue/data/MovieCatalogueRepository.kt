@@ -68,6 +68,13 @@ class MovieCatalogueRepository(
         return localRepository?.getMovieIfFavorite(movieId)
     }
 
+    override fun getAllFavorites(): Maybe<List<FavoritesEntity>>? {
+        return localRepository?.getAllFavorites()
+    }
+
+    override fun getMoviesWhereType(movieId: Int, type: String): Maybe<List<MoviesEntity>>? {
+        return localRepository?.getMoviesWhereType(movieId, type)
+    }
 
     override fun isCompositeDisposable(): CompositeDisposable {
         return compositeDisposable
