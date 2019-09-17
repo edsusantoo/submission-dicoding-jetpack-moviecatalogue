@@ -1,4 +1,4 @@
-package com.edsusantoo.bismillah.moviecatalogue.ui.home.favorites.movies
+package com.edsusantoo.bismillah.moviecatalogue.ui.home.favorites.tvshows
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,8 +8,8 @@ import androidx.paging.PagedList
 import com.edsusantoo.bismillah.moviecatalogue.data.MovieCatalogueRepository
 import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesFavoritesEntity
 
-class MoviesFavoriteViewModel(
-    private val movieCatalogueRepository: MovieCatalogueRepository?
+class TvShowsFavoriteViewModel(
+    private var movieCatalogueRepository: MovieCatalogueRepository?
 ) : ViewModel() {
 
     private val errorMassage = MutableLiveData<String>()
@@ -31,6 +31,5 @@ class MoviesFavoriteViewModel(
         super.onCleared()
         movieCatalogueRepository?.isCompositeDisposable()?.dispose()
     }
-
 
 }

@@ -39,8 +39,8 @@ class LocalRepository(
         return moviesFavoritesDao.getMoviesIfFavorites(movieName)
     }
 
-    fun getAllMoviesFavorites(): DataSource.Factory<Int, MoviesFavoritesEntity> {
-        return moviesFavoritesDao.getAllMoviesFavorites()
+    fun getAllMoviesFavorites(type: String): DataSource.Factory<Int, MoviesFavoritesEntity> {
+        return moviesFavoritesDao.getAllMoviesFavorites(type)
     }
 
 }

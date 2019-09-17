@@ -21,7 +21,7 @@ interface MovieCatalogueDataSource {
 
     fun getMoviesIfFavorites(movieName: String): Maybe<MoviesFavoritesEntity>?
 
-    fun getAllMoviesFavorites(): DataSource.Factory<Int, MoviesFavoritesEntity>?
+    fun getAllMoviesFavorites(type: String): DataSource.Factory<Int, MoviesFavoritesEntity>?
 
     fun insertMoviesFavorites(moviesFavoritesEntity: MoviesFavoritesEntity)
 

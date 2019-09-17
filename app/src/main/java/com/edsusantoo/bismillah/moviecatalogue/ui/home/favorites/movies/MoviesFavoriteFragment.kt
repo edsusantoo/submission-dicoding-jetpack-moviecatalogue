@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.edsusantoo.bismillah.moviecatalogue.R
 import com.edsusantoo.bismillah.moviecatalogue.ui.home.favorites.adapter.FavoritesAdapter
+import com.edsusantoo.bismillah.moviecatalogue.utils.Constants
 import com.edsusantoo.bismillah.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies_favorite.*
 
@@ -72,7 +73,7 @@ class MoviesFavoriteFragment : Fragment() {
     }
 
     private fun observerMoviesFavorites() {
-        viewModel.getAllMoviesFavorites().observe(this, Observer {
+        viewModel.getAllMoviesFavorites(Constants.MOVIE).observe(this, Observer {
             if (it != null) {
                 adapterFavorite.submitList(it)
             }

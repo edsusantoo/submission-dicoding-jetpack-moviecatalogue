@@ -107,7 +107,33 @@ class DetailActivity : AppCompatActivity() {
                     }
                 }
                 Constants.TVSHOW -> {
-
+                    if (favorite != null && favorite?.movie_name == getDataIntent().title) {
+                        fab_favorite.setImageResource(R.drawable.ic_favorite_border_dislike)
+                        detailViewModel
+                            .deleteMovie(
+                                MoviesFavoritesEntity(
+                                    getDataIntent().title,
+                                    getDataIntent().description,
+                                    genres,
+                                    getDataIntent().rate,
+                                    getDataIntent().type,
+                                    getDataIntent().poster
+                                )
+                            )
+                    } else {
+                        fab_favorite.setImageResource(R.drawable.ic_favorite_like)
+                        detailViewModel
+                            .insertFavorite(
+                                MoviesFavoritesEntity(
+                                    getDataIntent().title,
+                                    getDataIntent().description,
+                                    genres,
+                                    getDataIntent().rate,
+                                    getDataIntent().type,
+                                    getDataIntent().poster
+                                )
+                            )
+                    }
                 }
             }
 

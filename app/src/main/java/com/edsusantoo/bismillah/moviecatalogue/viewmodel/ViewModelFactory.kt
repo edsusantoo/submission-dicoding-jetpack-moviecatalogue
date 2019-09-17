@@ -7,6 +7,7 @@ import com.edsusantoo.bismillah.moviecatalogue.data.MovieCatalogueRepository
 import com.edsusantoo.bismillah.moviecatalogue.di.Injection
 import com.edsusantoo.bismillah.moviecatalogue.ui.detail.DetailViewModel
 import com.edsusantoo.bismillah.moviecatalogue.ui.home.favorites.movies.MoviesFavoriteViewModel
+import com.edsusantoo.bismillah.moviecatalogue.ui.home.favorites.tvshows.TvShowsFavoriteViewModel
 import com.edsusantoo.bismillah.moviecatalogue.ui.home.movies.MoviesViewModel
 import com.edsusantoo.bismillah.moviecatalogue.ui.home.tvshows.TvShowsViewModel
 
@@ -31,6 +32,9 @@ class ViewModelFactory(private val movieCatalogueRepository: MovieCatalogueRepos
             modelClass.isAssignableFrom(TvShowsViewModel::class.java) -> TvShowsViewModel(movieCatalogueRepository) as T
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> DetailViewModel(movieCatalogueRepository) as T
             modelClass.isAssignableFrom(MoviesFavoriteViewModel::class.java) -> MoviesFavoriteViewModel(
+                movieCatalogueRepository
+            ) as T
+            modelClass.isAssignableFrom(TvShowsFavoriteViewModel::class.java) -> TvShowsFavoriteViewModel(
                 movieCatalogueRepository
             ) as T
             else -> throw IllegalArgumentException("Unknown ViewModel Class: " + modelClass.name)

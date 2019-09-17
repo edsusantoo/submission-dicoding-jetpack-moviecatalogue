@@ -56,8 +56,8 @@ class MovieCatalogueRepository(
         localRepository?.deleteMoviesFavorites(moviesFavoritesEntity)
     }
 
-    override fun getAllMoviesFavorites(): DataSource.Factory<Int, MoviesFavoritesEntity>? {
-        return localRepository?.getAllMoviesFavorites()
+    override fun getAllMoviesFavorites(type: String): DataSource.Factory<Int, MoviesFavoritesEntity>? {
+        return localRepository?.getAllMoviesFavorites(type)
     }
 
     override fun getMoviesIfFavorites(movieName: String): Maybe<MoviesFavoritesEntity>? {
