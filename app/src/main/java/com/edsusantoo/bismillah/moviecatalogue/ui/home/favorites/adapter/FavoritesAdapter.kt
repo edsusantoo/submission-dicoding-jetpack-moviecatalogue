@@ -78,12 +78,12 @@ class FavoritesAdapter(
             genres = DataConverter.jsonStringToList(movie.genre)
             tvTitle.text = movie.movie_name
             var dataGenres: String? = null
-            for (i in 0 until movie.genre.length) {
+            for (i in 0 until genres.size) {
                 dataGenres = (if (dataGenres == null) {
-                    movie.genre[i]
+                    genres[i]
                 } else {
-                    dataGenres + ", " + movie.genre[i]
-                }).toString()
+                    dataGenres + ", " + genres[i]
+                })
             }
             tvGenre.text = dataGenres
             tvRate.text = movie.rate

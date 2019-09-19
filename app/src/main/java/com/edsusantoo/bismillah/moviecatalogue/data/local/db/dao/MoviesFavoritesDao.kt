@@ -13,7 +13,7 @@ interface MoviesFavoritesDao {
     @Delete
     fun delete(moviesFavoritesEntity: MoviesFavoritesEntity)
 
-    @Query("SELECT * FROM movies_favorites WHERE type =:type ORDER BY favorite_id ASC")
+    @Query("SELECT * FROM movies_favorites WHERE type =:type ORDER BY movies_favorites_id ASC")
     fun getAllMoviesFavorites(type: String): DataSource.Factory<Int, MoviesFavoritesEntity>
 
     @Query("SELECT * FROM movies_favorites WHERE movie_name =:movieName")

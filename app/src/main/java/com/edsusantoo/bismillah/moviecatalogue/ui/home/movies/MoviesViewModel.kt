@@ -67,7 +67,7 @@ class MoviesViewModel(
                     moviesResponse.results[i].overview,
                     MovieCatalogueFunction.convertRate(moviesResponse.results[i].voteAverage) + "%",
                     getGenres(moviesResponse.results[i], genresResponse),
-                    moviesResponse.results[i].backdropPath,
+                    moviesResponse.results[i].posterPath,
                     Constants.MOVIE
 
                 )

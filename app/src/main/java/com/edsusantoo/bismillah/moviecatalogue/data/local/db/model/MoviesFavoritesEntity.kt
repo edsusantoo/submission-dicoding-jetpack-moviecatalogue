@@ -20,6 +20,6 @@ data class MoviesFavoritesEntity(
     var image: String
 ) {
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "favorite_id")
+    @ColumnInfo(name = "movies_favorites_id")
     var favoriteId: Int = 0
 }
