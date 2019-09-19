@@ -73,6 +73,7 @@ class TvShowsAdapter(private val context: Context?) : RecyclerView.Adapter<TvSho
             tvRate.text = movie.rate
             Glide.with(context!!)
                 .load("${Constants.URL_POSTER}${movie.poster}")
+                .error(R.drawable.ic_broken_image)
                 .into(imgPoster)
         }
     }

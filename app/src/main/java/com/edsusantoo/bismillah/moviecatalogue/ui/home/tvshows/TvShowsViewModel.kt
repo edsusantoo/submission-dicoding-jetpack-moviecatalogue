@@ -59,7 +59,13 @@ class TvShowsViewModel(
 
     private fun setTvShowsAndGenres(tvShowsResponse: TvShowsResponse, genresResponse: GenresResponse) {
         val movies = ArrayList<MoviesModel>()
+        var poster: String? = null
         for (i in 0 until tvShowsResponse.results.size) {
+            poster = if (tvShowsResponse.results[i].posterPath == null) {
+                "https://"
+            } else {
+                tvShowsResponse.results[i].posterPath
+            }
             movies.add(
                 MoviesModel(
                     tvShowsResponse.results[i].id,
@@ -67,7 +73,7 @@ class TvShowsViewModel(
                     tvShowsResponse.results[i].overview,
                     MovieCatalogueFunction.convertRate(tvShowsResponse.results[i].voteAverage) + "%",
                     getGenres(tvShowsResponse.results[i], genresResponse),
-                    tvShowsResponse.results[i].backdropPath,
+                    poster!!,
                     Constants.TVSHOW
                 )
             )
