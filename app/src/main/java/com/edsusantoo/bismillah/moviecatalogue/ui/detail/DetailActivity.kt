@@ -37,9 +37,6 @@ class DetailActivity : AppCompatActivity() {
             observerLoading()
             observerMovieIsFavorite()
 
-
-            detailViewModel.getMovieIsFavorite(getDataIntent().title)
-
         }
     }
 
@@ -163,7 +160,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun observerMovieIsFavorite() {
-        detailViewModel.getMovieIsFavorite().observe(this, Observer {
+        detailViewModel.getMovieIsFavorite(getDataIntent().title).observe(this, Observer {
             favorite = it
             if (it.movie_name == getDataIntent().title) {
                 fab_favorite.setImageResource(R.drawable.ic_favorite_like)

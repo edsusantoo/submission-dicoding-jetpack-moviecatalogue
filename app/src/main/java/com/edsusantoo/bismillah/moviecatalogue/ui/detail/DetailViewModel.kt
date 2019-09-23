@@ -23,10 +23,6 @@ class DetailViewModel(
     private val successMessage = MutableLiveData<String>()
     private val isLoading = MutableLiveData<Boolean>()
 
-    fun getMovieIsFavorite(): LiveData<MoviesFavoritesEntity> {
-        return movieIsFavorite
-    }
-
     fun errorMessage(): LiveData<String> {
         return mErrorMessage
     }
@@ -39,7 +35,7 @@ class DetailViewModel(
         return successMessage
     }
 
-    fun getMovieIsFavorite(movieName: String) {
+    fun getMovieIsFavorite(movieName: String): LiveData<MoviesFavoritesEntity> {
         movieCatalogueRepository?.getMoviesIfFavorites(movieName)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
@@ -61,6 +57,8 @@ class DetailViewModel(
                 }
 
             })
+
+        return movieIsFavorite
     }
 
 
