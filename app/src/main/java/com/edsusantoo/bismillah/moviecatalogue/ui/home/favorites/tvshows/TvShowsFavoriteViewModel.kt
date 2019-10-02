@@ -29,7 +29,7 @@ class TvShowsFavoriteViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        movieCatalogueRepository?.isCompositeDisposable()?.dispose()
+        movieCatalogueRepository?.isLocalCompositeDisposable()?.dispose()
     }
 
 }

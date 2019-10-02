@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.edsusantoo.bismillah.moviecatalogue.R
 import com.edsusantoo.bismillah.moviecatalogue.ui.home.favorites.FavoriteFragment
 import com.edsusantoo.bismillah.moviecatalogue.ui.home.movies.MoviesFragment
@@ -32,6 +33,7 @@ class HomeActivity : AppCompatActivity() {
         if (fragment != null) {
             supportFragmentManager
                 .beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .replace(R.id.frame_container, fragment)
                 .commit()
         }
@@ -42,8 +44,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-        navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+
+        nav_view.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         if (savedInstanceState != null) {
             savedInstanceState.getInt(SELECTED_MENU)

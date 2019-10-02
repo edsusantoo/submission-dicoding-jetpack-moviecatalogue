@@ -29,9 +29,15 @@ class MovieCatalogueRepository(
         }
     }
 
-    override fun isCompositeDisposable(): CompositeDisposable {
-        return remoteRepository.isCompositeDisposable()
+    override fun isLocalCompositeDisposable(): CompositeDisposable {
+        return localRepository!!.isLocalCompositeDisposable()
     }
+
+    override fun isRemoteCompositeDisposable(): CompositeDisposable {
+        return remoteRepository.isRemoteCompositeDisposable()
+    }
+
+
 
     override fun getMovies(language: String): LiveData<Resource<MoviesCatalogueModel>> {
         return object : BoundResource<MoviesCatalogueModel>() {

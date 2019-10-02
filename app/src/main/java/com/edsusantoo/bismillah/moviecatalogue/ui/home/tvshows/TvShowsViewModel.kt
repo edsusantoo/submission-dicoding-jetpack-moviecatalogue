@@ -17,6 +17,6 @@ class TvShowsViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        movieCatalogueRepository?.isCompositeDisposable()?.dispose()
+        movieCatalogueRepository?.isRemoteCompositeDisposable()?.dispose()
     }
 }

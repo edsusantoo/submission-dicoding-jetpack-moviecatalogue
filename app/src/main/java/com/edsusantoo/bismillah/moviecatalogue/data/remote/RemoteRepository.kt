@@ -9,6 +9,7 @@ import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.movie.Movies
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.tvshows.TvShowsResponse
 import com.edsusantoo.bismillah.moviecatalogue.data.utils.Resource
 import com.edsusantoo.bismillah.moviecatalogue.utils.CombineData
+import com.edsusantoo.bismillah.moviecatalogue.utils.EspressoIdlingResource
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -20,6 +21,9 @@ class RemoteRepository {
     private var compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     fun getMovies(language: String): LiveData<Resource<MoviesCatalogueModel>> {
+
+        EspressoIdlingResource.increment()
+
         val data = MutableLiveData<Resource<MoviesCatalogueModel>>()
         compositeDisposable.add(
             Single.zip(
@@ -31,6 +35,10 @@ class RemoteRepository {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
+
                         data.value = Resource.success(CombineData.movies_genres.value!!)
                     },
                     {
@@ -43,11 +51,12 @@ class RemoteRepository {
 
     fun getTvShows(language: String): LiveData<Resource<MoviesCatalogueModel>> {
 
-        val data = MutableLiveData<Resource<MoviesCatalogueModel>>()
+        EspressoIdlingResource.increment()
 
+        val data = MutableLiveData<Resource<MoviesCatalogueModel>>()
         compositeDisposable.add(
             Single.zip(
-                RemoteConfig.getRemoteApiStore().getTvShows(BuildConfig.API_KEY, "en-US"),
+                RemoteConfig.getRemoteApiStore().getTvShows(BuildConfig.API_KEY, language),
                 RemoteConfig.getRemoteApiStore().getGenresTv(BuildConfig.API_KEY),
                 BiFunction<TvShowsResponse, GenresResponse, Unit> { tv_shows, genres ->
                     CombineData.setTvShowsAndGenres(tv_shows, genres)
@@ -57,6 +66,9 @@ class RemoteRepository {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
+                        if (!EspressoIdlingResource.getEspressoIdlingResource().isIdleNow) {
+                            EspressoIdlingResource.decrement() // Set app as idle.
+                        }
                         data.value = Resource.success(CombineData.movies_genres.value!!)
 
                     },
@@ -70,7 +82,7 @@ class RemoteRepository {
     }
 
 
-    fun isCompositeDisposable(): CompositeDisposable {
+    fun isRemoteCompositeDisposable(): CompositeDisposable {
         return compositeDisposable
     }
 }

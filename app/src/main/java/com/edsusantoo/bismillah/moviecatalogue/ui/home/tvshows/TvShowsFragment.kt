@@ -41,9 +41,8 @@ class TvShowsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_tv_shows, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
             tvShowsViewModel = obtainViewModel(activity!!)
             setup()

@@ -43,19 +43,19 @@ class HomeActivityTest {
         onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
     }
 
-    @Test
-    fun toDetailTvShowsTest() {
-        onView(withId(R.id.navigation_tv_shows)).check(matches(isDisplayed()))
-        onView(withId(R.id.navigation_tv_shows)).perform(
-            click()
-        )
-        onView(withId(R.id.rv_tv_shows)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_tv_shows)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                0,
-                click()
-            )
-        )
-        onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
-    }
+//    @Test
+//    fun toDetailTvShowsTest() {
+//        onView(withId(R.id.navigation_tv_shows)).check(matches(isDisplayed()))
+//        onView(withId(R.id.navigation_tv_shows)).perform(
+//            click()
+//        )
+//        onView(withId(R.id.rv_tv_shows)).check(matches(isDisplayed()))
+//        onView(withId(R.id.rv_tv_shows)).perform(
+//            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+//                0,
+//                click()
+//            )
+//        )
+//        onView(withId(R.id.tv_title)).check(matches(isDisplayed()))
+//    }
 }

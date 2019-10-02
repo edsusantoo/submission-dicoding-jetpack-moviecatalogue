@@ -40,8 +40,8 @@ class MoviesFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_movies, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
             moviesViewModel = obtainViewModel(activity!!)
             setup()
