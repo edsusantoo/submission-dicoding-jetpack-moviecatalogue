@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "movies_favorites")
 data class MoviesFavoritesEntity(
+    @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "movie_id")
     var movie_id: Int,
     @ColumnInfo(name = "movie_name")
@@ -21,7 +22,5 @@ data class MoviesFavoritesEntity(
     @ColumnInfo(name = "image")
     var image: String
 ) {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "movies_favorites_id")
-    var favoriteId: Int = 0
+
 }
