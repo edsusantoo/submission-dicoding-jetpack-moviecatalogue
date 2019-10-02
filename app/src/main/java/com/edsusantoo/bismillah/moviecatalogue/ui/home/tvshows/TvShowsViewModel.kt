@@ -14,9 +14,10 @@ class TvShowsViewModel(
         return movieCatalogueRepository?.getTvShows("en-US")
     }
 
-
     override fun onCleared() {
         super.onCleared()
-        movieCatalogueRepository?.isRemoteCompositeDisposable()?.dispose()
+        if (movieCatalogueRepository?.isRemoteCompositeDisposable() != null) {
+            movieCatalogueRepository.isRemoteCompositeDisposable().clear()
+        }
     }
 }

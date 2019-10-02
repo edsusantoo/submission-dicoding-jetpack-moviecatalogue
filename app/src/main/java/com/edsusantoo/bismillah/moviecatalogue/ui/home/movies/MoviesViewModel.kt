@@ -16,6 +16,14 @@ class MoviesViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        movieCatalogueRepository?.isRemoteCompositeDisposable()?.dispose()
+        if (movieCatalogueRepository?.isRemoteCompositeDisposable() != null) {
+            movieCatalogueRepository.isRemoteCompositeDisposable().clear()
+        }
+//TODO:compositedisposable
+// Using clear will clear all, but can accept new disposable
+//        disposables.clear();
+// Using dispose will clear all and set isDisposed = true, so it will not accept any new disposable
+//        disposables.dispose();
+
     }
 }

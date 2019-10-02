@@ -58,4 +58,9 @@ class HomeActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState, outPersistentState)
         outState?.putInt(SELECTED_MENU, nav_view.selectedItemId)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
 }
