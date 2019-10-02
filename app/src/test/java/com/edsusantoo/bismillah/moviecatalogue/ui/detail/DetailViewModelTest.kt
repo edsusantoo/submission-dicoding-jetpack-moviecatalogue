@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesFavoritesEntity
+import com.edsusantoo.bismillah.moviecatalogue.data.utils.Resource
 import com.edsusantoo.bismillah.moviecatalogue.utils.DataConverter
 import com.edsusantoo.bismillah.moviecatalogue.utils.LiveDataTestUtil
 import com.nhaarman.mockitokotlin2.verify
@@ -24,12 +25,14 @@ class DetailViewModelTest {
     @get:Rule
     val instantTaskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var dummyMoviesFavorites: MoviesFavoritesEntity
+    private lateinit var dummyInsertMoviesFavorites: MoviesFavoritesEntity
+    private lateinit var dummyMoviesFavorites: Resource<MoviesFavoritesEntity>
+
 
     private var viewModel = mock(DetailViewModel::class.java)
 
     @Mock
-    lateinit var observerMoviesIsFavorite: Observer<MoviesFavoritesEntity>
+    lateinit var observerMoviesIsFavorite: Observer<Resource<MoviesFavoritesEntity>>
 
 
     @Before
@@ -46,7 +49,8 @@ class DetailViewModelTest {
         genresAquaman.add("Action")
         genresAquaman.add("Adventure")
         genresAquaman.add("Fantasy")
-        dummyMoviesFavorites = MoviesFavoritesEntity(
+        dummyInsertMoviesFavorites = MoviesFavoritesEntity(
+            1,
             "Aquaman",
             "Once home to the most advanced civilization on Earth, Atlantis is now an underwater kingdom ruled by the power-hungry King Orm. With a vast army at his disposal, Orm plans to conquer the remaining oceanic people and then the surface world. Standing in his way is Arthur Curry, Orm's half-human, half-Atlantean brother and true heir to the throne.",
             DataConverter.listToJsonString(genresAquaman),
@@ -55,13 +59,25 @@ class DetailViewModelTest {
             "https://"
         )
 
+        dummyMoviesFavorites = Resource.success(
+            MoviesFavoritesEntity(
+                1,
+                "Aquaman",
+                "Once home to the most advanced civilization on Earth, Atlantis is now an underwater kingdom ruled by the power-hungry King Orm. With a vast army at his disposal, Orm plans to conquer the remaining oceanic people and then the surface world. Standing in his way is Arthur Curry, Orm's half-human, half-Atlantean brother and true heir to the throne.",
+                DataConverter.listToJsonString(genresAquaman),
+                "68%",
+                "movie",
+                "https://"
+            )
+        )
+
     }
 
     @Test
     fun insert_than_get_movies_is_favorites() {
-        viewModel.insertFavorite(dummyMoviesFavorites)
+        viewModel.insertFavorite(dummyInsertMoviesFavorites)
 
-        val moviesFavorites: MutableLiveData<MoviesFavoritesEntity> = MutableLiveData()
+        val moviesFavorites = MutableLiveData<Resource<MoviesFavoritesEntity>>()
         moviesFavorites.value = dummyMoviesFavorites
 
         `when`(viewModel.getMovieIsFavorite("au")).thenReturn(moviesFavorites)
@@ -72,17 +88,17 @@ class DetailViewModelTest {
 
 
         val moviesTest = LiveDataTestUtil.getValue(viewModel.getMovieIsFavorite("au"))
-        assertEquals("Aquaman", moviesTest.movie_name)
+        assertEquals("Aquaman", moviesTest.data?.movie_name)
 
 
     }
 
     @Test
     fun insert_delete_then_get_movies_not_favorites() {
-        viewModel.insertFavorite(dummyMoviesFavorites)
-        viewModel.deleteMovie(dummyMoviesFavorites)
+        viewModel.insertFavorite(dummyInsertMoviesFavorites)
+        viewModel.deleteMovie(dummyInsertMoviesFavorites)
 
-        val moviesFavorites: MutableLiveData<MoviesFavoritesEntity> = MutableLiveData()
+        val moviesFavorites = MutableLiveData<Resource<MoviesFavoritesEntity>>()
         moviesFavorites.value = dummyMoviesFavorites
 
         `when`(viewModel.getMovieIsFavorite("Aquaman")).thenReturn(moviesFavorites)
@@ -94,7 +110,7 @@ class DetailViewModelTest {
         val moviestest = LiveDataTestUtil.getValue(viewModel.getMovieIsFavorite("Aquaman"))
 
         assertNotNull(moviestest)
-        assertNotEquals("Batman", moviestest.movie_name)
+        assertNotEquals("Batman", moviestest.data?.movie_name)
 
     }
 }

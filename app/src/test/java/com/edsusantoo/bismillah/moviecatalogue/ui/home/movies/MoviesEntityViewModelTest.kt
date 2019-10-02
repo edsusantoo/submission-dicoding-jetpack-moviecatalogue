@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesCatalogueModel
+import com.edsusantoo.bismillah.moviecatalogue.data.utils.Resource
 import com.edsusantoo.bismillah.moviecatalogue.utils.FakeDataDummy
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
@@ -22,7 +23,7 @@ class MoviesEntityViewModelTest {
     private var viewModel: MoviesViewModel = mock(MoviesViewModel::class.java)
 
     @Mock
-    lateinit var observerGetMovie: Observer<MoviesCatalogueModel>
+    lateinit var observerGetMovie: Observer<Resource<MoviesCatalogueModel>>
 
 
     @Before
@@ -36,16 +37,14 @@ class MoviesEntityViewModelTest {
 
     @Test
     fun getMovie() {
+        val dummyMovie = Resource.success(MoviesCatalogueModel(FakeDataDummy.getMovies()))
 
-        val dummyMovie =
-            MoviesCatalogueModel(FakeDataDummy.getMovies())
-
-        val movie: MutableLiveData<MoviesCatalogueModel> = MutableLiveData()
+        val movie = MutableLiveData<Resource<MoviesCatalogueModel>>()
         movie.value = dummyMovie
 
         `when`(viewModel.getMovies()).thenReturn(movie)
 
-        viewModel.getMovies().observeForever(observerGetMovie)
+        viewModel.getMovies()?.observeForever(observerGetMovie)
 
         verify(observerGetMovie).onChanged(dummyMovie)
     }

@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesCatalogueModel
+import com.edsusantoo.bismillah.moviecatalogue.data.utils.Resource
 import com.edsusantoo.bismillah.moviecatalogue.utils.FakeDataDummy
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.schedulers.Schedulers
@@ -21,7 +22,7 @@ class TvShowsViewModelTest {
     private var viewModel: TvShowsViewModel = mock(TvShowsViewModel::class.java)
 
     @Mock
-    lateinit var observerGetTvShows: Observer<MoviesCatalogueModel>
+    lateinit var observerGetTvShows: Observer<Resource<MoviesCatalogueModel>>
 
     @Before
     fun init() {
@@ -34,15 +35,14 @@ class TvShowsViewModelTest {
 
     @Test
     fun getTvShows() {
-        val dummyTvShows =
-            MoviesCatalogueModel(FakeDataDummy.getTvShows())
+        val dummyTvShows = Resource.success(MoviesCatalogueModel(FakeDataDummy.getTvShows()))
 
-        val tvShows: MutableLiveData<MoviesCatalogueModel> = MutableLiveData()
+        val tvShows = MutableLiveData<Resource<MoviesCatalogueModel>>()
         tvShows.value = dummyTvShows
 
         `when`(viewModel.getTvShows()).thenReturn(tvShows)
 
-        viewModel.getTvShows().observeForever(observerGetTvShows)
+        viewModel.getTvShows()?.observeForever(observerGetTvShows)
 
         verify(observerGetTvShows).onChanged(dummyTvShows)
 
