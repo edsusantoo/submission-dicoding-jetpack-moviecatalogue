@@ -6,6 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "movies_favorites")
 data class MoviesFavoritesEntity(
+    @ColumnInfo(name = "movie_id")
+    var movie_id: Int,
     @ColumnInfo(name = "movie_name")
     var movie_name: String,
     @ColumnInfo(name = "description")

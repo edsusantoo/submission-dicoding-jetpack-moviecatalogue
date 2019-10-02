@@ -1,6 +1,7 @@
 package com.edsusantoo.bismillah.moviecatalogue.data.remote
 
 import com.edsusantoo.bismillah.moviecatalogue.BuildConfig
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -31,6 +32,7 @@ class RemoteConfig {
                 .writeTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .addInterceptor(interceptor)
+                .addInterceptor(StethoInterceptor())
                 .build()
         }
 

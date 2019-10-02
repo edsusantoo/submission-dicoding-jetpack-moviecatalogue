@@ -13,10 +13,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.edsusantoo.bismillah.moviecatalogue.R
 import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.data.utils.StatusResponse
 import com.edsusantoo.bismillah.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies.*
 
-//TODO:progressbar masih keliatan ketika dipanggil kembali, saat live data ada isinya
+//TODO:progressbar masih keliatan ketika dipanggil kembali
 class MoviesFragment : Fragment() {
 
     private lateinit var moviesViewModel: MoviesViewModel
@@ -45,9 +46,7 @@ class MoviesFragment : Fragment() {
             moviesViewModel = obtainViewModel(activity!!)
             setup()
 
-            observerLoading()
             observerMovies()
-            observerErrorMessage()
         }
     }
 
@@ -57,31 +56,31 @@ class MoviesFragment : Fragment() {
 
     }
 
-    private fun observerLoading() {
-        moviesViewModel.isLoading().observe(this, Observer {
-            if (it) {
-                progress_circular.visibility = View.VISIBLE
-            } else {
-                progress_circular.visibility = View.GONE
+    private fun observerMovies() {
+        moviesViewModel.getMovies()?.observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
+                    StatusResponse.LOADING -> {
+                        progress_circular.visibility = View.VISIBLE
+                    }
+                    StatusResponse.ERROR -> {
+                        progress_circular.visibility = View.GONE
+                        Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                    }
+                    StatusResponse.SUCCESS -> {
+                        progress_circular.visibility = View.GONE
+                        onLoadMovieSuccess(it.data?.list)
+                    }
+                }
             }
         })
     }
 
-    private fun observerErrorMessage() {
-        moviesViewModel.getErrorMessage().observe(this, Observer {
-            Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
-        })
-    }
-
-    private fun observerMovies() {
-        moviesViewModel.getMovies().observe(this, Observer {
-            onLoadMovieSucces(it.list)
-        })
-    }
-
-    private fun onLoadMovieSucces(data: List<MoviesModel>) {
-        val adapter = MoviesAdapter(context)
-        adapter.addMovie(data)
-        rv_movies.adapter = adapter
+    private fun onLoadMovieSuccess(data: List<MoviesModel>?) {
+        if (data != null) {
+            val adapter = MoviesAdapter(context)
+            adapter.addMovie(data)
+            rv_movies.adapter = adapter
+        }
     }
 }

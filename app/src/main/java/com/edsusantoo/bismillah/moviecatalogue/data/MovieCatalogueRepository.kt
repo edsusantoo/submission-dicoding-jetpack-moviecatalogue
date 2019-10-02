@@ -1,14 +1,14 @@
 package com.edsusantoo.bismillah.moviecatalogue.data
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.edsusantoo.bismillah.moviecatalogue.data.local.LocalRepository
 import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesFavoritesEntity
+import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesCatalogueModel
 import com.edsusantoo.bismillah.moviecatalogue.data.remote.RemoteRepository
-import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.genres.GenresResponse
-import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.movie.MoviesResponse
-import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.tvshows.TvShowsResponse
-import io.reactivex.Maybe
-import io.reactivex.Single
+import com.edsusantoo.bismillah.moviecatalogue.data.utils.BoundResource
+import com.edsusantoo.bismillah.moviecatalogue.data.utils.MessageResponse
+import com.edsusantoo.bismillah.moviecatalogue.data.utils.Resource
 import io.reactivex.disposables.CompositeDisposable
 
 class MovieCatalogueRepository(
@@ -29,43 +29,56 @@ class MovieCatalogueRepository(
         }
     }
 
-    private var compositeDisposable: CompositeDisposable = CompositeDisposable()
-
-
-    override fun getMovies(language: String): Single<MoviesResponse> {
-        return remoteRepository.getMovies(language)
+    override fun isCompositeDisposable(): CompositeDisposable {
+        return remoteRepository.isCompositeDisposable()
     }
 
-    override fun getTvShows(language: String): Single<TvShowsResponse> {
-        return remoteRepository.getTvShows(language)
+    override fun getMovies(language: String): LiveData<Resource<MoviesCatalogueModel>> {
+        return object : BoundResource<MoviesCatalogueModel>() {
+            override fun createCall(): LiveData<Resource<MoviesCatalogueModel>> {
+                return remoteRepository.getMovies(language)
+            }
+        }.asLiveData()
     }
 
-    override fun getGenresMovies(): Single<GenresResponse> {
-        return remoteRepository.getGenresMovies()
+    override fun getTvShows(language: String): LiveData<Resource<MoviesCatalogueModel>> {
+        return object : BoundResource<MoviesCatalogueModel>() {
+            override fun createCall(): LiveData<Resource<MoviesCatalogueModel>> {
+                return remoteRepository.getTvShows(language)
+            }
+
+        }.asLiveData()
     }
 
-    override fun getGenresTvShows(): Single<GenresResponse> {
-        return remoteRepository.getGenresTvShows()
+    override fun insertMovies(moviesFavoritesEntity: MoviesFavoritesEntity): LiveData<Resource<MessageResponse>> {
+        return object : BoundResource<MessageResponse>() {
+            override fun createCall(): LiveData<Resource<MessageResponse>> {
+                return localRepository!!.insertMoviesFavorites(moviesFavoritesEntity)
+            }
+        }.asLiveData()
     }
 
-    override fun insertMoviesFavorites(moviesFavoritesEntity: MoviesFavoritesEntity) {
-        localRepository?.insertMoviesFavorites(moviesFavoritesEntity)
-    }
 
-    override fun deleteMoviesFavorites(moviesFavoritesEntity: MoviesFavoritesEntity) {
-        localRepository?.deleteMoviesFavorites(moviesFavoritesEntity)
+    override fun deleteMovies(moviesFavoritesEntity: MoviesFavoritesEntity): LiveData<Resource<MessageResponse>> {
+        return object : BoundResource<MessageResponse>() {
+            override fun createCall(): LiveData<Resource<MessageResponse>> {
+                return localRepository!!.deleteMoviesFavorites(moviesFavoritesEntity)
+            }
+
+        }.asLiveData()
     }
 
     override fun getAllMoviesFavorites(type: String): DataSource.Factory<Int, MoviesFavoritesEntity>? {
         return localRepository?.getAllMoviesFavorites(type)
     }
 
-    override fun getMoviesIfFavorites(movieName: String): Maybe<MoviesFavoritesEntity>? {
-        return localRepository?.getMoviesIfFavorites(movieName)
-    }
+    override fun getMoviesIfFavorites(movieName: String): LiveData<Resource<MoviesFavoritesEntity>> {
+        return object : BoundResource<MoviesFavoritesEntity>() {
+            override fun createCall(): LiveData<Resource<MoviesFavoritesEntity>> {
+                return localRepository!!.getMoviesIfFavorites(movieName)
+            }
 
-    override fun isCompositeDisposable(): CompositeDisposable {
-        return compositeDisposable
+        }.asLiveData()
     }
 
 }

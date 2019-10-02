@@ -1,33 +1,29 @@
 package com.edsusantoo.bismillah.moviecatalogue.data
 
+import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesFavoritesEntity
-import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.genres.GenresResponse
-import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.movie.MoviesResponse
-import com.edsusantoo.bismillah.moviecatalogue.data.remote.response.tvshows.TvShowsResponse
-import io.reactivex.Maybe
-import io.reactivex.Single
+import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesCatalogueModel
+import com.edsusantoo.bismillah.moviecatalogue.data.utils.MessageResponse
+import com.edsusantoo.bismillah.moviecatalogue.data.utils.Resource
 import io.reactivex.disposables.CompositeDisposable
 
 interface MovieCatalogueDataSource {
 
-    fun getMovies(language: String): Single<MoviesResponse>
+    fun isCompositeDisposable(): CompositeDisposable
 
-    fun getTvShows(language: String): Single<TvShowsResponse>
+    fun getMovies(language: String): LiveData<Resource<MoviesCatalogueModel>>
 
-    fun getGenresTvShows(): Single<GenresResponse>
+    fun getTvShows(language: String): LiveData<Resource<MoviesCatalogueModel>>
 
-    fun getGenresMovies(): Single<GenresResponse>
+    fun insertMovies(moviesFavoritesEntity: MoviesFavoritesEntity): LiveData<Resource<MessageResponse>>
 
-    fun getMoviesIfFavorites(movieName: String): Maybe<MoviesFavoritesEntity>?
+    fun deleteMovies(moviesFavoritesEntity: MoviesFavoritesEntity): LiveData<Resource<MessageResponse>>
+
+    fun getMoviesIfFavorites(movieName: String): LiveData<Resource<MoviesFavoritesEntity>>
 
     fun getAllMoviesFavorites(type: String): DataSource.Factory<Int, MoviesFavoritesEntity>?
 
-    fun insertMoviesFavorites(moviesFavoritesEntity: MoviesFavoritesEntity)
-
-    fun deleteMoviesFavorites(moviesFavoritesEntity: MoviesFavoritesEntity)
-
-    fun isCompositeDisposable(): CompositeDisposable
 
 
 }

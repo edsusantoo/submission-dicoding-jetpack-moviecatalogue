@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.edsusantoo.bismillah.moviecatalogue.R
 import com.edsusantoo.bismillah.moviecatalogue.data.local.db.model.MoviesFavoritesEntity
 import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.data.utils.StatusResponse
 import com.edsusantoo.bismillah.moviecatalogue.utils.Constants
 import com.edsusantoo.bismillah.moviecatalogue.utils.DataConverter
 import com.edsusantoo.bismillah.moviecatalogue.viewmodel.ViewModelFactory
@@ -32,11 +33,7 @@ class DetailActivity : AppCompatActivity() {
 
             onClick()
 
-            observerErrorMessage()
-            observerSuccessMessage()
-            observerLoading()
             observerMovieIsFavorite()
-
         }
     }
 
@@ -76,9 +73,9 @@ class DetailActivity : AppCompatActivity() {
                 Constants.MOVIE -> {
                     if (favorite != null && favorite?.movie_name == getDataIntent().title) {
                         fab_favorite.setImageResource(R.drawable.ic_favorite_border_dislike)
-                        detailViewModel
-                            .deleteMovie(
+                        observerDeleteFavorite(
                                 MoviesFavoritesEntity(
+                                    getDataIntent().id,
                                     getDataIntent().title,
                                     getDataIntent().description,
                                     genres,
@@ -89,9 +86,9 @@ class DetailActivity : AppCompatActivity() {
                             )
                     } else {
                         fab_favorite.setImageResource(R.drawable.ic_favorite_like)
-                        detailViewModel
-                            .insertFavorite(
+                        observerInsertFavorite(
                                 MoviesFavoritesEntity(
+                                    getDataIntent().id,
                                     getDataIntent().title,
                                     getDataIntent().description,
                                     genres,
@@ -105,9 +102,9 @@ class DetailActivity : AppCompatActivity() {
                 Constants.TVSHOW -> {
                     if (favorite != null && favorite?.movie_name == getDataIntent().title) {
                         fab_favorite.setImageResource(R.drawable.ic_favorite_border_dislike)
-                        detailViewModel
-                            .deleteMovie(
+                        observerDeleteFavorite(
                                 MoviesFavoritesEntity(
+                                    getDataIntent().id,
                                     getDataIntent().title,
                                     getDataIntent().description,
                                     genres,
@@ -118,9 +115,9 @@ class DetailActivity : AppCompatActivity() {
                             )
                     } else {
                         fab_favorite.setImageResource(R.drawable.ic_favorite_like)
-                        detailViewModel
-                            .insertFavorite(
+                        observerInsertFavorite(
                                 MoviesFavoritesEntity(
+                                    getDataIntent().id,
                                     getDataIntent().title,
                                     getDataIntent().description,
                                     genres,
@@ -136,34 +133,57 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun observerInsertFavorite(moviesFavoritesEntity: MoviesFavoritesEntity) {
+        detailViewModel.insertFavorite(moviesFavoritesEntity).observe(this, Observer {
+            when (it.status) {
+                StatusResponse.LOADING -> {
 
-    private fun observerLoading() {
-        detailViewModel.isLoading().observe(this, Observer {
-            if (it) {
-
-            } else {
-
+                }
+                StatusResponse.ERROR -> {
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                }
+                StatusResponse.SUCCESS -> {
+                    Toast.makeText(this, it.data?.message, Toast.LENGTH_LONG).show()
+                }
             }
         })
     }
 
-    private fun observerErrorMessage() {
-        detailViewModel.errorMessage().observe(this, Observer {
-            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
+    private fun observerDeleteFavorite(moviesFavoritesEntity: MoviesFavoritesEntity) {
+        detailViewModel.deleteMovie(moviesFavoritesEntity).observe(this, Observer {
+            when (it.status) {
+                StatusResponse.LOADING -> {
+
+                }
+                StatusResponse.ERROR -> {
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                }
+                StatusResponse.SUCCESS -> {
+                    Toast.makeText(this, it.data?.message, Toast.LENGTH_LONG).show()
+                }
+            }
         })
+
     }
 
-    private fun observerSuccessMessage() {
-        detailViewModel.successMessage().observe(this, Observer {
-            Toast.makeText(this, it, Toast.LENGTH_LONG).show()
-        })
-    }
 
     private fun observerMovieIsFavorite() {
         detailViewModel.getMovieIsFavorite(getDataIntent().title).observe(this, Observer {
-            favorite = it
-            if (it.movie_name == getDataIntent().title) {
-                fab_favorite.setImageResource(R.drawable.ic_favorite_like)
+            when (it.status) {
+                StatusResponse.LOADING -> {
+
+                }
+                StatusResponse.ERROR -> {
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                }
+                StatusResponse.SUCCESS -> {
+                    favorite = it.data
+                    if (it.data?.movie_name == getDataIntent().title) {
+                        fab_favorite.setImageResource(R.drawable.ic_favorite_like)
+                    }
+                }
+
+
             }
         })
     }

@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.edsusantoo.bismillah.moviecatalogue.R
 import com.edsusantoo.bismillah.moviecatalogue.data.local.other.MoviesModel
+import com.edsusantoo.bismillah.moviecatalogue.data.utils.StatusResponse
 import com.edsusantoo.bismillah.moviecatalogue.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_tv_shows.*
 
@@ -46,9 +47,8 @@ class TvShowsFragment : Fragment() {
         if (activity != null) {
             tvShowsViewModel = obtainViewModel(activity!!)
             setup()
-            observerLoading()
+
             observerMovies()
-            observerErrorMessage()
         }
     }
 
@@ -57,31 +57,32 @@ class TvShowsFragment : Fragment() {
         rv_tv_shows.setHasFixedSize(true)
     }
 
-    private fun observerLoading() {
-        tvShowsViewModel.isLoading().observe(this, Observer {
-            if (it) {
-                progress_circular.visibility = View.VISIBLE
-            } else {
-                progress_circular.visibility = View.GONE
+
+    private fun observerMovies() {
+        tvShowsViewModel.getTvShows()?.observe(this, Observer {
+            if (it != null) {
+                when (it.status) {
+                    StatusResponse.LOADING -> {
+                        progress_circular.visibility = View.VISIBLE
+                    }
+                    StatusResponse.ERROR -> {
+                        progress_circular.visibility = View.GONE
+                        Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                    }
+                    StatusResponse.SUCCESS -> {
+                        progress_circular.visibility = View.GONE
+                        onLoadMovieSuccess(it.data?.list)
+                    }
+                }
             }
         })
     }
 
-    private fun observerErrorMessage() {
-        tvShowsViewModel.getErrorMessage().observe(this, Observer {
-            Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
-        })
-    }
-
-    private fun observerMovies() {
-        tvShowsViewModel.getTvShows().observe(this, Observer {
-            onLoadMovieSuccess(it.list)
-        })
-    }
-
-    private fun onLoadMovieSuccess(data: List<MoviesModel>) {
-        val adapter = TvShowsAdapter(context)
-        adapter.addTvShows(data)
-        rv_tv_shows.adapter = adapter
+    private fun onLoadMovieSuccess(data: List<MoviesModel>?) {
+        if (data != null) {
+            val adapter = TvShowsAdapter(context)
+            adapter.addTvShows(data)
+            rv_tv_shows.adapter = adapter
+        }
     }
 }
