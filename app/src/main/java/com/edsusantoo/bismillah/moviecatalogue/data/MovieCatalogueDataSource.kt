@@ -11,6 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 interface MovieCatalogueDataSource {
 
     fun isLocalCompositeDisposable(): CompositeDisposable
+
     fun isRemoteCompositeDisposable(): CompositeDisposable
 
     fun getMovies(language: String): LiveData<Resource<MoviesCatalogueModel>>

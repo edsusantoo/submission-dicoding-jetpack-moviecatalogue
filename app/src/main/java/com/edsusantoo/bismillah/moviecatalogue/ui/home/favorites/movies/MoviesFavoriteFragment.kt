@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
@@ -50,26 +49,10 @@ class MoviesFavoriteFragment : Fragment() {
 
             setup()
 
-            observerIsLoading()
-            observerErrorMessage()
             observerMoviesFavorites()
 
 
         }
-    }
-
-    private fun observerIsLoading() {
-        viewModel.isLoading().observe(this, Observer {
-            if (it) {
-            } else {
-            }
-        })
-    }
-
-    private fun observerErrorMessage() {
-        viewModel.getErrorMessage().observe(this, Observer {
-            Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
-        })
     }
 
     private fun observerMoviesFavorites() {
