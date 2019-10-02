@@ -19,17 +19,17 @@
             android:background="@android:color/white">
 
             <ImageView
-                android:id="@+id/img_poster"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:contentDescription="@string/minus"
-                android:scaleType="fitXY"
-                android:src="@drawable/poster_bumblebee"
-                app:layout_constraintBottom_toTopOf="@+id/guideline"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
+                    android:id="@+id/img_poster"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:contentDescription="@string/minus"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/poster_bumblebee"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab_back"

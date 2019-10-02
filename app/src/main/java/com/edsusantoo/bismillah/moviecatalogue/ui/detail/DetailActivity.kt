@@ -65,7 +65,6 @@ class DetailActivity : AppCompatActivity() {
 
         Glide.with(this)
             .load("${Constants.URL_POSTER}${getDataIntent().poster}")
-            .fitCenter()
             .into(img_poster)
 
     }
