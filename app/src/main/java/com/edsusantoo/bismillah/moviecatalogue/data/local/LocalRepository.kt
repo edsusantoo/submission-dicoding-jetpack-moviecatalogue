@@ -47,7 +47,7 @@ class LocalRepository(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    compositeDisposable.add(d)
+
                 }
 
                 override fun onError(e: Throwable) {
@@ -72,7 +72,7 @@ class LocalRepository(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    compositeDisposable.add(d)
+
                 }
 
                 override fun onError(e: Throwable) {
@@ -99,7 +99,7 @@ class LocalRepository(
                 }
 
                 override fun onSubscribe(d: Disposable) {
-                    compositeDisposable.add(d)
+
                 }
 
                 override fun onError(e: Throwable) {
