@@ -24,6 +24,7 @@
                     android:layout_height="0dp"
                     android:contentDescription="@string/minus"
                     android:scaleType="fitXY"
+                    android:adjustViewBounds="true"
                     android:src="@drawable/poster_bumblebee"
                     app:layout_constraintBottom_toTopOf="@+id/guideline"
                     app:layout_constraintEnd_toEndOf="parent"
